@@ -1,19 +1,21 @@
 {
     "spm":[
         {
-            "q1": "Question1",
-            "q2": "Question2",
-            "q3": "Question3",
-            "q4": "Question4",
-            "answer": "Actual answer",
+            "q": "Question?",
+            "a1": "Question1",
+            "a2": "Question2",
+            "a3": "Question3",
+            "a4": "Question4",
+            "answer": "a1",
             "read": "Where to read more about the question"
         },
         {
-            "q1": "Question11",
-            "q2": "Question22",
-            "q3": "Question33",
-            "q4": "Question44",
-            "answer": "Actual answer for this question",
+            "q": "Question?",
+            "a1": "Question11",
+            "a2": "Question22",
+            "a3": "Question33",
+            "a4": "Question44",
+            "answer": "a3",
             "read": "Where to read more"
         }
     ]
