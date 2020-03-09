@@ -2,19 +2,19 @@
     "spm":[
         {
             "q": "Question?",
-            "a1": "Question1",
-            "a2": "Question2",
-            "a3": "Question3",
-            "a4": "Question4",
+            "a1": "Answer 1",
+            "a2": "Answer 2",
+            "a3": "Answer 3",
+            "a4": "Answer 4",
             "answer": "a1",
             "read": "Where to read more about the question"
         },
         {
             "q": "Question?",
-            "a1": "Question11",
-            "a2": "Question22",
-            "a3": "Question33",
-            "a4": "Question44",
+            "a1": "Answer 11",
+            "a2": "Answer 22",
+            "a3": "Answer 33",
+            "a4": "Answer 44",
             "answer": "a3",
             "read": "Where to read more"
         }
