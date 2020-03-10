@@ -10,12 +10,12 @@
             "read": "Where to read more about the question"
         },
         {
-            "q": "Question?",
-            "a1": "Answer 11",
-            "a2": "Answer 22",
-            "a3": "Answer 33",
-            "a4": "Answer 44",
-            "answer": "a3",
+            "q": "Hvilken av følgende oppgaver kan defineres som et prosjekt?",
+            "a1": "Et mobiltelefonselskap aktiverer en ny kundetjeneste",
+            "a2": "En bilprodusent produserer en dags kvote med kjøretøy",
+            "a3": "Et IT-firma utvikler en ny “Crash proof” operativsystem",
+            "a4": "En forhandler fyller på hyllene etter en dag med mye salg.",
+            "answer": "a1",
             "read": "Where to read more"
         }
     ]
