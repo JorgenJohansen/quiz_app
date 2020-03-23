@@ -24,7 +24,7 @@ spm = [
         "a2": "En bilprodusent produserer en dags kvote med kj�ret�y",
         "a3": "Et IT-firma utvikler en ny �Crash proof� operativsystem",
         "a4": "En forhandler fyller p� hyllene etter en dag med mye salg.",
-        "answer": "a1",
+        "answer": "a3",
         "read": "Ikke riktig, men du kan lese mer om det her: "
     }
 ]
@@ -36,8 +36,6 @@ def import_questions():
 
 # Evaluates a question, returns True if correct answer, False otherwise
 def evaluate_question(index, answer):
-    remove_frames()
-    give_feedback(index)
     if spm[index]["answer"] == answer:
         labelText = StringVar()
         labelText.set("Riktig Svar")
@@ -95,7 +93,7 @@ def present_question(index):
     
     #Answer button
     answer = "a1"
-    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, command = lambda: evaluate_question(index, rbValue.get())).pack()
+    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, command = lambda: give_feedback(index, rbValue.get())).pack()
     
     #Next question button
     nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
@@ -104,7 +102,8 @@ def present_question(index):
     #previousQuestion = Button(app, text="Go to previous question", width=20, padx=5, pady=5, command = lambda: previousQuestion(index)).pack()
 
 # Gives feedback to the user with the help of the UI
-def give_feedback(index):
+def give_feedback(index, answer):
+    remove_frames()
     question = spm[index]["q"]
     a1 = spm[index]["a1"]
     a2 = spm[index]["a2"]
@@ -122,6 +121,8 @@ def give_feedback(index):
     Radiobutton(app, text=a2, value="a2").pack()
     Radiobutton(app, text=a3, value="a3").pack()
     Radiobutton(app, text=a4, value="a4").pack()
+
+    evaluate_question(index, answer)
     
     #Next question button
     nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
