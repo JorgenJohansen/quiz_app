@@ -25,7 +25,7 @@ spm = [
         "a3": "Et IT-firma utvikler en ny �Crash proof� operativsystem",
         "a4": "En forhandler fyller p� hyllene etter en dag med mye salg.",
         "answer": "a1",
-        "read": "Where to read more"
+        "read": "Ikke riktig, men du kan lese mer om det her: "
     }
 ]
 
@@ -35,16 +35,18 @@ def import_questions():
     return None
 
 # Evaluates a question, returns True if correct answer, False otherwise
-def evaluate_question(i, answer):
-    if spm[i]["answer"] == answer:
+def evaluate_question(index, answer):
+    remove_frames()
+    give_feedback(index)
+    if spm[index]["answer"] == answer:
         labelText = StringVar()
         labelText.set("Riktig Svar")
-        answer = Label(app, textvariable=labelText, height="3",).pack()
+        feedbackMessage = Label(app, textvariable=labelText, height="3",).pack()
     else:
         labelText = StringVar()
-        labelText.set(spm[i]["read"])
-        answer = Label(app, textvariable=labelText, height="3",).pack()
-    app.nextquestion['state'] = DISABLED
+        labelText.set(spm[index]["read"])
+        feedbackMessage = Label(app, textvariable=labelText, height="3",).pack()
+    
 
 #Function to check value of radiobuttons
 '''
@@ -102,8 +104,27 @@ def present_question(index):
     #previousQuestion = Button(app, text="Go to previous question", width=20, padx=5, pady=5, command = lambda: previousQuestion(index)).pack()
 
 # Gives feedback to the user with the help of the UI
-def give_feedback():
-    return None
+def give_feedback(index):
+    question = spm[index]["q"]
+    a1 = spm[index]["a1"]
+    a2 = spm[index]["a2"]
+    a3 = spm[index]["a3"]
+    a4 = spm[index]["a4"]
+    
+    #Question as a label
+    labelText = StringVar()
+    labelText.set(question)
+    question = Label(app, textvariable=labelText, height="3").pack()
+
+    
+    #Radiobutton(app, text=a1, variable=rbValue, value="a1", command = lambda: send_alternative(rbValue.get())).pack()
+    Radiobutton(app, text=a1, value="a1").pack()
+    Radiobutton(app, text=a2, value="a2").pack()
+    Radiobutton(app, text=a3, value="a3").pack()
+    Radiobutton(app, text=a4, value="a4").pack()
+    
+    #Next question button
+    nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
 
 # Initiate the UI
 def init_ui():
