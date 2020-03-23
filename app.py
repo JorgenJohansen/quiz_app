@@ -39,15 +39,18 @@ def evaluate_question(i, answer):
     if spm[i]["answer"] == answer:
         labelText = StringVar()
         labelText.set("Riktig Svar")
-        answer = Label(app, textvariable=labelText, height="3").pack()
+        answer = Label(app, textvariable=labelText, height="3",).pack()
     else:
         labelText = StringVar()
         labelText.set(spm[i]["read"])
-        answer = Label(app, textvariable=labelText, height="3").pack()
+        answer = Label(app, textvariable=labelText, height="3",).pack()
+    app.nextquestion['state'] = DISABLED
 
-def send_alternative():
-    pass
-
+#Function to check value of radiobuttons
+'''
+def send_alternative(value):
+    print value
+'''
 #This function removes all unessary widgets from the frame
 def remove_frames():
     for widget in app.winfo_children():
@@ -77,17 +80,20 @@ def present_question(index):
     labelText = StringVar()
     labelText.set(question)
     question = Label(app, textvariable=labelText, height="3").pack()
-    
+
+    #Value for radiobutton
+    rbValue = StringVar()
     #print "hei3"
     #Radiobuttons
-    rb = Radiobutton(app, text=a1, value="a1", command=send_alternative).pack()
-    rb = Radiobutton(app, text=a2, value="a2", command=send_alternative).pack()
-    rb = Radiobutton(app, text=a3, value="a3", command=send_alternative).pack()
-    rb = Radiobutton(app, text=a4, value="a4", command=send_alternative).pack()
+    #Radiobutton(app, text=a1, variable=rbValue, value="a1", command = lambda: send_alternative(rbValue.get())).pack()
+    Radiobutton(app, text=a1, variable=rbValue, value="a1").pack()
+    Radiobutton(app, text=a2, variable=rbValue, value="a2").pack()
+    Radiobutton(app, text=a3, variable=rbValue, value="a3").pack()
+    Radiobutton(app, text=a4, variable=rbValue, value="a4").pack()
     
     #Answer button
     answer = "a1"
-    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, command= lambda: evaluate_question(index, answer)).pack()
+    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, command = lambda: evaluate_question(index, rbValue.get())).pack()
     
     #Next question button
     nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
