@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+#UTF8 support
+
 from Tkinter import *
 
 #Creating tkinter app window:
