@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from Tkinter import *
+import json, pprint, io
 
 #Creating tkinter app window:
 app = Tk()
@@ -19,20 +21,37 @@ spm = [
         "read": "Where to read more about the question"
     },
     {
-        "q": "Hvilken av f�lgende oppgaver kan defineres som et prosjekt?",
+        "q": "Hvilken av følgende oppgaver kan defineres som et prosjekt?",
         "a1": "Et mobiltelefonselskap aktiverer en ny kundetjeneste",
-        "a2": "En bilprodusent produserer en dags kvote med kj�ret�y",
-        "a3": "Et IT-firma utvikler en ny �Crash proof� operativsystem",
-        "a4": "En forhandler fyller p� hyllene etter en dag med mye salg.",
-        "answer": "a3",
-        "read": "Ikke riktig, men du kan lese mer om det her: "
+        "a2": "En bilprodusent produserer en dags kvote med kjøretøy",
+        "a3": "Et IT-firma utvikler en ny \"Crash proof\" operativsystem",
+        "a4": "En forhandler fyller på hyllene etter en dag med mye salg.",
+        "answer": "a1",
+        "read": "Where to read more"
     }
 ]
 
-# Import questions, return JSON object with 
-# questions, answers, and more reading material
+# Import questions, return JSON object with questions, answers, and more reading material
+# Requires the JSON object to be in same dictionary and named: spm.json
+# May be modified to account for different paths and names for JSON object
 def import_questions():
-    return None
+    #global spm
+    try:
+        with io.open('spm.json', 'r', encoding='utf-8') as fh:
+            json_object = json.load(fh)
+            json_file = json_object.get(u'spm')
+            return json_file
+    except EnvironmentError:
+        print('Problem loading JSON.')
+        print('Check if json file exists in same dir and name is spm.json')
+        print ('Useing default dummy data instead')
+        return spm
+    except Exception as e: 
+        print('Problem loading JSON object.')
+        print('Errormessage: ' + e)
+        print ('Useing default dummy data instead')
+        return spm
+
 
 # Evaluates a question, returns True if correct answer, False otherwise
 def evaluate_question(index, answer):
@@ -133,6 +152,8 @@ def init_ui():
 
 # Main function
 def main():
+    global spm
+    spm = import_questions()
     i = 0
     present_question(i)
 
