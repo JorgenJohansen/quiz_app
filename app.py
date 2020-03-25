@@ -44,12 +44,12 @@ def import_questions():
     except EnvironmentError:
         print('Problem loading JSON.')
         print('Check if json file exists in same dir and name is spm.json')
-        print ('Useing dummy data instead')
+        print ('Useing default dummy data instead')
         return spm
     except Exception as e: 
         print('Problem loading JSON object.')
         print('Errormessage: ' + e)
-        print ('Useing dummy data already  instead')
+        print ('Useing default dummy data instead')
         return spm
 
 
