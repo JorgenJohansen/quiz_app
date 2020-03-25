@@ -54,19 +54,22 @@ def import_questions():
 
 
 # Evaluates a question, returns True if correct answer, False otherwise
-def evaluate_question(i, answer):
-    if spm[i]["answer"] == answer:
+def evaluate_question(index, answer):
+    if spm[index]["answer"] == answer:
         labelText = StringVar()
         labelText.set("Riktig Svar")
-        answer = Label(app, textvariable=labelText, height="3").pack()
+        feedbackMessage = Label(app, textvariable=labelText, height="3",).pack()
     else:
         labelText = StringVar()
-        labelText.set(spm[i]["read"])
-        answer = Label(app, textvariable=labelText, height="3").pack()
+        labelText.set(spm[index]["read"])
+        feedbackMessage = Label(app, textvariable=labelText, height="3",).pack()
+    
 
-def send_alternative():
-    pass
-
+#Function to check value of radiobuttons
+'''
+def send_alternative(value):
+    print value
+'''
 #This function removes all unessary widgets from the frame
 def remove_frames():
     for widget in app.winfo_children():
@@ -96,17 +99,20 @@ def present_question(index):
     labelText = StringVar()
     labelText.set(question)
     question = Label(app, textvariable=labelText, height="3").pack()
-    
+
+    #Value for radiobutton
+    rbValue = StringVar()
     #print "hei3"
     #Radiobuttons
-    rb = Radiobutton(app, text=a1, value="a1", command=send_alternative).pack()
-    rb = Radiobutton(app, text=a2, value="a2", command=send_alternative).pack()
-    rb = Radiobutton(app, text=a3, value="a3", command=send_alternative).pack()
-    rb = Radiobutton(app, text=a4, value="a4", command=send_alternative).pack()
+    #Radiobutton(app, text=a1, variable=rbValue, value="a1", command = lambda: send_alternative(rbValue.get())).pack()
+    Radiobutton(app, text=a1, variable=rbValue, value="a1").pack()
+    Radiobutton(app, text=a2, variable=rbValue, value="a2").pack()
+    Radiobutton(app, text=a3, variable=rbValue, value="a3").pack()
+    Radiobutton(app, text=a4, variable=rbValue, value="a4").pack()
     
     #Answer button
     answer = "a1"
-    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, command= lambda: evaluate_question(index, answer)).pack()
+    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, command = lambda: give_feedback(index, rbValue.get())).pack()
     
     #Next question button
     nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
@@ -115,8 +121,30 @@ def present_question(index):
     #previousQuestion = Button(app, text="Go to previous question", width=20, padx=5, pady=5, command = lambda: previousQuestion(index)).pack()
 
 # Gives feedback to the user with the help of the UI
-def give_feedback():
-    return None
+def give_feedback(index, answer):
+    remove_frames()
+    question = spm[index]["q"]
+    a1 = spm[index]["a1"]
+    a2 = spm[index]["a2"]
+    a3 = spm[index]["a3"]
+    a4 = spm[index]["a4"]
+    
+    #Question as a label
+    labelText = StringVar()
+    labelText.set(question)
+    question = Label(app, textvariable=labelText, height="3").pack()
+
+    
+    #Radiobutton(app, text=a1, variable=rbValue, value="a1", command = lambda: send_alternative(rbValue.get())).pack()
+    Radiobutton(app, text=a1, value="a1").pack()
+    Radiobutton(app, text=a2, value="a2").pack()
+    Radiobutton(app, text=a3, value="a3").pack()
+    Radiobutton(app, text=a4, value="a4").pack()
+
+    evaluate_question(index, answer)
+    
+    #Next question button
+    nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
 
 # Initiate the UI
 def init_ui():
