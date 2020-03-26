@@ -55,14 +55,14 @@ def import_questions():
 
 # Evaluates a question, returns True if correct answer, False otherwise
 def evaluate_question(index, answer):
-    if spm[index]["answer"] == answer:
+    if spm[index]["answer"] == spm[index][answer]:
         labelText = StringVar()
-        labelText.set("Riktig Svar")
-        feedbackMessage = Label(app, textvariable=labelText, height="3",).pack()
+        labelText.set("Riktig Svar! Bra jobba!")
+        feedbackMessage = Label(app, textvariable=labelText, height="3", foreground="green").pack()
     else:
         labelText = StringVar()
         labelText.set(spm[index]["read"])
-        feedbackMessage = Label(app, textvariable=labelText, height="3",).pack()
+        feedbackMessage = Label(app, textvariable=labelText, height="3").pack()
     
 
 #Function to check value of radiobuttons
@@ -114,28 +114,47 @@ def present_question(index):
 def give_feedback(index, answer):
     remove_frames()
     question = spm[index]["q"]
-    a1 = spm[index]["a1"]
-    a2 = spm[index]["a2"]
-    a3 = spm[index]["a3"]
-    a4 = spm[index]["a4"]
     
     #Question as a label
     labelText = StringVar()
     labelText.set(question)
     question = Label(app, textvariable=labelText, height="3").pack()
 
-    
-    #Radiobutton(app, text=a1, variable=rbValue, value="a1", command = lambda: send_alternative(rbValue.get())).pack()
-    Radiobutton(app, text=a1, value="a1").pack()
-    Radiobutton(app, text=a2, value="a2").pack()
-    Radiobutton(app, text=a3, value="a3").pack()
-    Radiobutton(app, text=a4, value="a4").pack()
+    #Render labels with varying colors of corretnes
+    #Red is for wrong answer, green is for right answer
+    if spm[index]["answer"] == spm[index][answer]:
+        for i in range(1,len(spm[index])-2):
+            labelText = StringVar()
+            valueString = "a" + str(i)
+            if spm[index]["answer"] == spm[index][valueString]:
+                labelText.set(spm[index][valueString])
+                Label(app, textvariable=labelText, height="3", foreground="green").pack()
+            else:
+                labelText.set(spm[index][valueString])
+                Label(app, textvariable=labelText, height="3", foreground="red").pack()
+    else:
+        for i in range(1,len(spm[index])-2):
+            labelText = StringVar()
+            valueString = "a" + str(i)
+            #print valueString
+            #print spm[index]["answer"]
+            #print spm[index]
+            if spm[index][answer] == spm[index][valueString]:
+                print "du er rød"
+                labelText.set(spm[index][valueString])
+                Label(app, textvariable=labelText, height="3", foreground="red").pack()
+            else:
+                print "du er svart"
+                labelText.set(spm[index][valueString])
+                Label(app, textvariable=labelText, height="3", foreground="black").pack()
+
 
     evaluate_question(index, answer)
     
     #Next question button
     nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
 
+    
 # Initiate the UI
 def init_ui():
     return None
