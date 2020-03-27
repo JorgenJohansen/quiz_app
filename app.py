@@ -55,14 +55,44 @@ def import_questions():
 
 # Evaluates a question, returns True if correct answer, False otherwise
 def evaluate_question(index, answer):
-    if spm[index]["answer"] == spm[index][answer]:
-        labelText = StringVar()
-        labelText.set("Riktig Svar! Bra jobba!")
-        feedbackMessage = Label(app, textvariable=labelText, height="3", foreground="green").pack()
-    else:
-        labelText = StringVar()
-        labelText.set(spm[index]["read"])
-        feedbackMessage = Label(app, textvariable=labelText, height="3").pack()
+    #print spm[index]["answer"]
+    
+    unicode_answer = spm[index][answer].encode("utf-8")
+    
+    #Gir en liste med alternativer
+    listOfAlternatives = spm[index]["answer"].split("$")
+
+    print unicode_answer
+    print listOfAlternatives[0]
+
+    '''
+    print unicode_answer == listOfAlternatives[0]
+    print unicode_answer == listOfAlternatives[1]
+    print unicode_answer == listOfAlternatives[2]
+    print unicode_answer == listOfAlternatives[3]
+    
+    listOfAlternatives2 = []
+    for i in range(0,len(listOfAlternatives)):
+        item = listOfAlternatives[i]
+        #print str(item)
+        listOfAlternatives2.append(str(item).strip())
+    print listOfAlternatives2
+    print spm[index][answer].strip() == listOfAlternatives2[0]
+    #print spm[index][answer] == listOfAlternatives2[1]
+    #print spm[index][answer] == listOfAlternatives2[2]
+    #print spm[index][answer] == listOfAlternatives2[3]
+    '''
+    for i in range(0, len(listOfAlternatives)):
+        if unicode_answer in listOfAlternatives:
+            labelText = StringVar()
+            labelText.set("Riktig Svar! Bra jobba!")
+            feedbackMessage = Label(app, textvariable=labelText, height="3", foreground="green").pack()
+            return
+        else:
+            labelText = StringVar()
+            labelText.set(spm[index]["read"])
+            feedbackMessage = Label(app, textvariable=labelText, height="3").pack()
+            return
     
 
 #Function to check value of radiobuttons
@@ -140,11 +170,11 @@ def give_feedback(index, answer):
             #print spm[index]["answer"]
             #print spm[index]
             if spm[index][answer] == spm[index][valueString]:
-                print "du er rød"
+                #print "du er rød"
                 labelText.set(spm[index][valueString])
                 Label(app, textvariable=labelText, height="3", foreground="red").pack()
             else:
-                print "du er svart"
+                #print "du er svart"
                 labelText.set(spm[index][valueString])
                 Label(app, textvariable=labelText, height="3", foreground="black").pack()
 
