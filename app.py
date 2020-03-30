@@ -98,61 +98,22 @@ def present_question(index):
 
     #Value for radiobutton
     rbValue = StringVar(value=2)
-    #rbValue2 = StringVar()
-    #print rbValue2
-    #disableButton = False
+    
+    #Answer button
+    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get()))
     #Radiobuttons
     #This is made to support questions with varying number of alternatives
+    #radiobuttons also sets the answer button to active, to keep the application from crashing
     for i in range(1, len(spm[index])-2):
         valueString = "a" + str(i)
-        #Radiobutton(app, text=spm[index][valueString], variable=rbValue, value=valueString, command = lambda: enable_button(index)).pack()
-        Radiobutton(app, text=spm[index][valueString], variable=rbValue, value=valueString).pack()
+        Radiobutton(app, text=spm[index][valueString], variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active")).pack()
         
-    #Answer button
-    #answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get())).pack()
-    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, state="active", command = lambda: give_feedback(index, rbValue.get())).pack()
-    '''
-    if(enable_button()):
-        answerbutton.destroy()
-        answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, state="enabled", command = lambda: give_feedback(index, rbValue.get())).pack()
-    '''
-        
+    #Answer button rendering
+    answerbutton.pack()
     
     #Next question button
     nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
 
-'''
-#Veldig dårlig workaround
-def enable_button(index):
-    remove_frames()
-    question = spm[index]["q"]
-    
-    #Question as a label
-    labelText = StringVar()
-    labelText.set(question)
-    question = Label(app, textvariable=labelText, height="3").pack()
-
-    #Value for radiobutton
-    rbValue = StringVar(value=2)
-    #rbValue2 = StringVar()
-    #print rbValue2
-    #disableButton = False
-    #Radiobuttons
-    #This is made to support questions with varying number of alternatives
-    for i in range(1, len(spm[index])-2):
-        valueString = "a" + str(i)
-        Radiobutton(app, text=spm[index][valueString], variable=rbValue, value=valueString).pack()
-        
-    #Answer button
-    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, state="active", command = lambda: give_feedback(index, rbValue.get())).pack()
-    
-    if(enable_button()):
-        answerbutton.destroy()
-        answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, state="enabled", command = lambda: give_feedback(index, rbValue.get())).pack()   
-    
-    #Next question button
-    nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
-'''  
 
 # Gives feedback to the user with the help of the UI
 def give_feedback(index, answer):
