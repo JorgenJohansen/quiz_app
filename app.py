@@ -89,6 +89,7 @@ def next_question(i):
 
 # Presents a question to the user with the help of the UI
 def present_question(index):
+    remove_frames()
     question = spm[index]["q"]
     
     #Question as a label
@@ -109,6 +110,7 @@ def present_question(index):
     
     #Next question button
     nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    discontinue = Button(app, text="Avslutt quiz", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
 
 # Gives feedback to the user with the help of the UI
 def give_feedback(index, answer):
@@ -153,18 +155,34 @@ def give_feedback(index, answer):
     
     #Next question button
     nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    discontinue = Button(app, text="Avslutt quiz", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
+    
 
+def front_page():
+    remove_frames()
+    labelText = StringVar()
+    labelText.set("Velkommen til quiz i praktisk prosjektledelse")
+    title = Label(app, textvariable=labelText, height="3", ).pack()
+    #title.config(font=("Arial",30))
+
+    Button(app, text="Start quiz", width=20, padx=5, pady=5, command = lambda: present_question(0)).pack()
+
+    labelText = StringVar()
+    labelText.set("Laget av gruppe 19.")
+    title = Label(app, textvariable=labelText, height="3", ).pack()
+    
     
 # Initiate the UI
 def init_ui():
-    return None
+    front_page()
 
 # Main function
 def main():
     global spm
     spm = import_questions()
-    i = 0
-    present_question(i)
+    init_ui()
+    #i = 0
+    #present_question(i)
 
 
 if __name__== "__main__":
