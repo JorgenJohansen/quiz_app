@@ -106,10 +106,10 @@ def present_question(index):
         Radiobutton(app, text=spm[index][valueString], variable=rbValue, value=valueString).pack()
         
     #Answer button
-    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, command = lambda: give_feedback(index, rbValue.get())).pack()
+    answerbutton = Button(app, text="Sjekk svaret", width=20, padx=5, pady=5, command = lambda: give_feedback(index, rbValue.get())).pack()
     
     #Next question button
-    nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    nextquestion = Button(app, text="Gå til neste spørsmål", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
     discontinue = Button(app, text="Avslutt quiz", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
 
 # Gives feedback to the user with the help of the UI
@@ -154,7 +154,7 @@ def give_feedback(index, answer):
     evaluate_question(index, answer)
     
     #Next question button
-    nextquestion = Button(app, text="Go to next question", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    nextquestion = Button(app, text="Gå til neste spørsmål", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
     discontinue = Button(app, text="Avslutt quiz", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
     
 
