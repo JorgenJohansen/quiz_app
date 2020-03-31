@@ -110,7 +110,7 @@ def present_question(index):
         Radiobutton(app, text=spm[index][valueString], variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active")).pack()
         
     #Answer button rendering
-    answerbutton = Button(app, text="Sjekk svaret", width=20, padx=5, pady=5, command = lambda: give_feedback(index, rbValue.get())).pack()
+    answerbutton.pack()
 
     #Next question button
     nextquestion = Button(app, text="Gå til neste spørsmål", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
