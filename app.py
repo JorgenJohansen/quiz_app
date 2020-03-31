@@ -64,12 +64,6 @@ def evaluate_question(index, answer):
         labelText.set(spm[index]["read"])
         feedbackMessage = Label(app, textvariable=labelText, height="3").pack()
     
-
-#Function to check value of radiobuttons
-'''
-def send_alternative(value):
-    print value
-'''
 #This function removes all unessary widgets from the frame
 def remove_frames():
     for widget in app.winfo_children():
@@ -99,6 +93,7 @@ def present_question(index):
 
     #Value for radiobutton
     rbValue = StringVar(value=2)
+    rbValue2 = StringVar()
     
     #Answer button
     answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get()))
@@ -110,7 +105,7 @@ def present_question(index):
         Radiobutton(app, text=spm[index][valueString], variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active")).pack()
         
     #Answer button rendering
-    answerbutton = Button(app, text="Sjekk svaret", width=20, padx=5, pady=5, command = lambda: give_feedback(index, rbValue.get())).pack()
+    answerbutton.pack()
 
     #Next question button
     nextquestion = Button(app, text="Gå til neste spørsmål", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
@@ -147,11 +142,11 @@ def give_feedback(index, answer):
             #print spm[index]["answer"]
             #print spm[index]
             if spm[index][answer] == spm[index][valueString]:
-                print "du er rød"
+                #print "du er rød"
                 labelText.set(spm[index][valueString])
                 Label(app, textvariable=labelText, height="3", foreground="red").pack()
             else:
-                print "du er svart"
+                #print "du er svart"
                 labelText.set(spm[index][valueString])
                 Label(app, textvariable=labelText, height="3", foreground="black").pack()
 
