@@ -85,11 +85,17 @@ def next_question(i):
 def present_question(index):
     remove_frames()
     question = spm[index]["q"]
+
+    #Progression in the quiz
+    progressionText = "Spørsmål " + str((index+1)) + " av " + str(len(spm))
+    labelText1 = StringVar()
+    labelText1.set(progressionText)
+    questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
     
     #Question as a label
-    labelText = StringVar()
-    labelText.set(question)
-    question = Label(app, textvariable=labelText, height="3").pack()
+    labelText2 = StringVar()
+    labelText2.set(question)
+    question = Label(app, textvariable=labelText2, height="3").pack()
 
     #Value for radiobutton
     rbValue = StringVar(value=2)
@@ -116,6 +122,12 @@ def present_question(index):
 def give_feedback(index, answer):
     remove_frames()
     question = spm[index]["q"]
+
+    #Progression in the quiz
+    progressionText = "Spørsmål " + str((index+1)) + " av " + str(len(spm))
+    labelText1 = StringVar()
+    labelText1.set(progressionText)
+    questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
     
     #Question as a label
     labelText = StringVar()
