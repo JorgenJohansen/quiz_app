@@ -85,7 +85,13 @@ def next_question(i):
 def present_question(index):
     remove_frames()
     question = spm[index]["q"]
+
+    #Change the text of the "next question" button if the user is on the last question
+    nextQuestionText = "Gå til neste spørsmål"
+    if (index+1) == len(spm):
+        nextQuestionText = "Start quiz på nytt?"
     
+    print index + 1
     #Question as a label
     labelText = StringVar()
     labelText.set(question)
@@ -108,7 +114,7 @@ def present_question(index):
     answerbutton.pack()
 
     #Next question button
-    nextquestion = Button(app, text="Gå til neste spørsmål", font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
     discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
 
 
@@ -116,6 +122,12 @@ def present_question(index):
 def give_feedback(index, answer):
     remove_frames()
     question = spm[index]["q"]
+    
+    print index + 1
+    #Change the text of the "next question" button if the user is on the last question
+    nextQuestionText = "Gå til neste spørsmål"
+    if (index+1) == len(spm):
+        nextQuestionText = "Start quiz på nytt?"
     
     #Question as a label
     labelText = StringVar()
@@ -154,7 +166,7 @@ def give_feedback(index, answer):
     evaluate_question(index, answer)
     
     #Next question button
-    nextquestion = Button(app, text="Gå til neste spørsmål", font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
     discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
     
 
