@@ -161,15 +161,15 @@ def give_feedback(index, answer):
 def front_page():
     remove_frames()
     labelText = StringVar()
-    labelText.set("Velkommen til quiz i praktisk prosjektledelse")
-    title = Label(app, textvariable=labelText, height="3", ).pack()
+    labelText.set("Velkommen til Quiz i Praktisk Prosjektledelse!")
+    title = Label(app, textvariable=labelText, height="3", font="30").pack()
     #title.config(font=("Arial",30))
 
-    Button(app, text="Start quiz", width=20, padx=5, pady=5, command = lambda: present_question(0)).pack()
+    Button(app, text="Start Quiz", width=20, font="10", padx=10, pady=10, command = lambda: present_question(0)).pack()
 
     labelText = StringVar()
     labelText.set("Laget av gruppe 19.")
-    title = Label(app, textvariable=labelText, height="3", ).pack()
+    title = Label(app, textvariable=labelText, height="3", font="20").pack()
     
     
 # Initiate the UI
