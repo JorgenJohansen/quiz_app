@@ -100,10 +100,12 @@ def present_question(index):
     #Radiobuttons
     #This is made to support questions with varying number of alternatives
     #radiobuttons also sets the answer button to active, to keep the application from crashing
+    rbContainer = Frame(app)
     for i in range(1, len(spm[index])-2):
         valueString = "a" + str(i)
-        Radiobutton(app, text=spm[index][valueString], justify="left",  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active")).pack()
-        
+        rb = Radiobutton(rbContainer, text=spm[index][valueString], justify="left",  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active"))
+        rb.pack(anchor="w")
+    rbContainer.pack()
     #Answer button rendering
     answerbutton.pack()
 
@@ -124,16 +126,17 @@ def give_feedback(index, answer):
 
     #Render labels with varying colors of corretnes
     #Red is for wrong answer, green is for right answer
+    answerContainer = Frame(app)
     if spm[index]["answer"] == spm[index][answer]:
         for i in range(1,len(spm[index])-2):
             labelText = StringVar()
             valueString = "a" + str(i)
             if spm[index]["answer"] == spm[index][valueString]:
                 labelText.set(spm[index][valueString])
-                Label(app, textvariable=labelText, height="3", foreground="green").pack()
+                Label(answerContainer, textvariable=labelText, height="2", foreground="green").pack(anchor="w")
             else:
                 labelText.set(spm[index][valueString])
-                Label(app, textvariable=labelText, height="3", foreground="red").pack()
+                Label(answerContainer, textvariable=labelText, height="2", foreground="red").pack(anchor="w")
     else:
         for i in range(1,len(spm[index])-2):
             labelText = StringVar()
@@ -144,13 +147,13 @@ def give_feedback(index, answer):
             if spm[index][answer] == spm[index][valueString]:
                 #print "du er rød"
                 labelText.set(spm[index][valueString])
-                Label(app, textvariable=labelText, height="3", foreground="red").pack()
+                Label(answerContainer, textvariable=labelText, height="2", foreground="red").pack(anchor="w")
             else:
                 #print "du er svart"
                 labelText.set(spm[index][valueString])
-                Label(app, textvariable=labelText, height="3", foreground="black").pack()
+                Label(answerContainer, textvariable=labelText, height="2", foreground="black").pack(anchor="w")
 
-
+    answerContainer.pack()
     evaluate_question(index, answer)
     
     #Next question button
