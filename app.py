@@ -89,7 +89,7 @@ def present_question(index):
     #Question as a label
     labelText = StringVar()
     labelText.set(question)
-    question = Label(app, textvariable=labelText, height="3").pack()
+    question = Label(app, textvariable=labelText, height="3", wraplength="250").pack()
 
     #Value for radiobutton
     rbValue = StringVar(value=2)
@@ -102,7 +102,7 @@ def present_question(index):
     #radiobuttons also sets the answer button to active, to keep the application from crashing
     for i in range(1, len(spm[index])-2):
         valueString = "a" + str(i)
-        Radiobutton(app, text=spm[index][valueString], variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active")).pack()
+        Radiobutton(app, text=spm[index][valueString], justify="left",  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active")).pack()
         
     #Answer button rendering
     answerbutton.pack()
@@ -120,7 +120,7 @@ def give_feedback(index, answer):
     #Question as a label
     labelText = StringVar()
     labelText.set(question)
-    question = Label(app, textvariable=labelText, height="3").pack()
+    question = Label(app, textvariable=labelText, height="3", wraplength="250").pack()
 
     #Render labels with varying colors of corretnes
     #Red is for wrong answer, green is for right answer
