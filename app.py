@@ -48,7 +48,7 @@ print stats["rightAnswers"]
 def import_questions():
     #global spm
     try:
-        with io.open('test.json', 'r', encoding='utf-8') as fh:
+        with io.open('spm.json', 'r', encoding='utf-8') as fh:
             json_object = json.load(fh)
             json_file = json_object.get(u'spm')
             return json_file
