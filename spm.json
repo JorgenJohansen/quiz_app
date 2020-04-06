@@ -1,13 +1,11 @@
 {
     "spm":[
         {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Påstand: Et prosjekt består av en rekke repeterende oppgaver",
+            "a1": "Sant",
+            "a2": "Usant",
+            "answer": "Usant",
+            "read": "Du kan lese mer om dette i kapittel: "
         },
         {
             "q": "Hvilken av følgende oppgaver kan defineres som et prosjekt?",
@@ -16,88 +14,159 @@
             "a3": "Et IT-firma utvikler en ny “Crash proof” operativsystem",
             "a4": "En forhandler fyller på hyllene etter en dag med mye salg.",
             "answer": "Et IT-firma utvikler en ny “Crash proof” operativsystem",
-            "read": "Where to read more"
+            "read": "Du kan lese mer om dette i kapittel: "
         },
          {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Et typisk prosjekt har",
+            "a1": "Definert start - og sluttdato.",
+            "a2": "Definert startdato, men udefinert sluttdato.",
+            "a3": "Udefinert startdato, men definert sluttdato.",
+            "a4": "Udefinert start- og sluddato.",
+            "answer": "Definert start - og sluttdato.",
+            "read": "Du kan lese mer om dette i kapittel: "
         },
          {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Hvilke av følgende eksempler kan ikke betraktes som en typisk prosjektbegrensning?",
+            "a1": "Prosjektet skal gjennomføres innen x-antall uker (varighet).",
+            "a2": "Prosjektet skal avsluttes 12. april 2020.",
+            "a3": "Budsjettet skal ikke overstige x-antall kroner.",
+            "a4": "Estimert arbeidsomfang er 5000 arbeidstimer. ",
+            "answer": "Estimert arbeidsomfang er 5000 arbeidstimer. ",
+            "read": "Du kan lese mer om dette i kapittel: "
         },
          {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Hvilket av følgende utsagn er feil om omstillingsprosjekter?",
+            "a1": "Involvering og medvirkning er en forutsetning for suksess.",
+            "a2": "Fare for motstand eller endringsvegring.",
+            "a3": "Forutsetter endringskompetanse.",
+            "a4": "Leveransen er håndfast.",
+            "answer": "Leveransen er håndfast.",
+            "read": "Du kan lese mer om dette i kapittel: "
         },
          {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Påstand: Hovedhensikten med interessentanalyse er å undersøke hvordan kundenes behov kan bli møtt.",
+            "a1": "Sant",
+            "a2": "Usant ",
+            "answer": "Usant ",
+            "read": "Du kan lese mer om dette i kapittel: "
         },
          {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Påstand: Leverandører er mulige interessentgrupper i et prosjekt.",
+            "a1": "Sant",
+            "a2": "Usant ",
+            "answer": "Sant ",
+            "read": "Du kan lese mer om dette i kapittel: "
         },
          {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Påstand: Hovedhensikten med interessentanalyse er å undersøke hvordan kundenes behov kan bli møtt.",
+            "a1": "Sant",
+            "a2": "Usant ",
+            "answer": "Usant ",
+            "read": "Du kan lese mer om dette i kapittel: "
         },
          {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Hvilket utsagn om interessenter er mest presis?",
+            "a1": "Alle interessentene utøver betydelig innflytelse.",
+            "a2": "Interessentene kan potensielt påvirke prosjektutvikling.",
+            "a3": "Klienter er ikke interessenter.",
+            "a4": "Alle interessentene er like viktige.",
+            "answer": "Interessentene kan potensielt påvirke prosjektutvikling.",
+            "read": "Du kan lese mer om dette i kapittel: "
         },
          {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Hvordan skal du håndtere en interessent som har stor innflytelse men er en stor motstander?",
+            "a1": "Minimal innsats/overvåke.",
+            "a2": "Tett samarbeid.",
+            "a3": "Lytte.",
+            "a4": "Redusere avhengigheten.",
+            "answer": "Redusere avhengigheten.",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "Påstand: Suksessfaktorer er indikatorer som brukes for å vurdere prosjektets sluttresultat.",
+            "a1": "Sant",
+            "a2": "Usant ",
+            "answer": "Usant ",
+            "read": "Du kan lese mer om dette i kapittel: "
         },
          {
-            "q": "Question?",
-            "a1": "Answer 1",
-            "a2": "Answer 2",
-            "a3": "Answer 3",
-            "a4": "Answer 4",
-            "answer": "Answer 1",
-            "read": "Where to read more about the question"
+            "q": "Å levere prosjektet i henhold til budsjettet og innenfor tidsrammen er en:",
+            "a1": "Indikator for prosjektledelsessuksess.",
+            "a2": "Indikator for prosjektsuksess.",
+            "a3": "Indikator for prosessuksess.",
+            "a4": "Indikator for teknisk suksess.",
+            "answer": "Indikator for prosjektledelsessuksess.",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "Påstand:  Identifisering av utløsende faktor, formål og effektmål utføres under gjennomføringsfasen.",
+            "a1": "Sant",
+            "a2": "Usant ",
+            "answer": "Usant ",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "Oppdragsgivers interesse for et prosjekt er vanligvis størst under: ",
+            "a1": "Initierings - og avslutningsfase.",
+            "a2": "Initierings - og planleggingsfase.",
+            "a3": "Planleggins - og gjennomføringsfase.",
+            "a4": "Avslutningsfase.",
+            "answer": "Initierings - og avslutningsfase.",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "Effektmålet beskriver:",
+            "a1": "Suksessfaktorer.",
+            "a2": "Risikofaktorer.",
+            "a3": "Gjennomføringstid.",
+            "a4": "Forventede gevinster av prosjektet.",
+            "answer": "Forventede gevinster av prosjektet.",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "Hvilke av følgende utsagn beskriver best hovedhensikt av initieringsfase i prosjekter?",
+            "a1": "Definere rammer og mål.",
+            "a2": "Definere interessentene og deres forventninger.",
+            "a3": "Skrive prosjektmandatet.",
+            "a4": "Skape felles forståelse, enighet og dedikasjon til målene.",
+            "answer": "Skape felles forståelse, enighet og dedikasjon til målene.",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "Kennedy: “Landing a man on the moon and returning him safely to the earth” er:",
+            "a1": "Effektmål",
+            "a2": "Formål",
+            "a3": "Utløsende faktor",
+            "a4": "Leveranse/resultatmål",
+            "answer": "Formål",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "“Utvikle og gjennomføre 3 dagers kurs til alle ansatte”  er: ",
+            "a1": "Effektmål",
+            "a2": "Leveranse",
+            "a3": "Formål",
+            "a4": "Utløsende faktor",
+            "answer": "Leveranse",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "“Oppnå kundetilfredshet på 90%” er:",
+            "a1": "Effektmål",
+            "a2": "Leveranse",
+            "a3": "Formål",
+            "a4": "Utløsende faktor",
+            "answer": "Effektmål",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "Hvilke følgende utsagn beskriver prosjekt eierens rolle best? ",
+            "a1": "Definere formålet.",
+            "a2": "Definere effektmål.",
+            "a3": "Definere rammer og begrensninger.",
+            "a4": "Alle alternativene.",
+            "answer": "Alle alternativene.",
+            "read": "Du kan lese mer om dette i kapittel: "
         }
     ]
 }
