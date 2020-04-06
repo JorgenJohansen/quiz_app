@@ -5,7 +5,7 @@ import json, pprint, io
 #Creating tkinter app window:
 app = Tk()
 app.title("Quiz Application")
-app.geometry('450x450+200+200')
+app.geometry('600x600+200+200')
 
 #Dummy data:
 #Can be deleted when questions are imported from spm.json
@@ -58,11 +58,11 @@ def evaluate_question(index, answer):
     if spm[index]["answer"] == spm[index][answer]:
         labelText = StringVar()
         labelText.set("Riktig Svar! Bra jobba!")
-        feedbackMessage = Label(app, textvariable=labelText, height="3", foreground="green").pack()
+        feedbackMessage = Label(app, textvariable=labelText, height="3", font="10", foreground="green").pack()
     else:
         labelText = StringVar()
         labelText.set(spm[index]["read"])
-        feedbackMessage = Label(app, textvariable=labelText, height="3").pack()
+        feedbackMessage = Label(app, textvariable=labelText, height="3", font="10").pack()
     
 #This function removes all unessary widgets from the frame
 def remove_frames():
@@ -85,18 +85,31 @@ def next_question(i):
 def present_question(index):
     remove_frames()
     question = spm[index]["q"]
+
+    #Progression in the quiz
+    progressionText = "Spørsmål " + str((index+1)) + " av " + str(len(spm))
+    labelText1 = StringVar()
+    labelText1.set(progressionText)
+    questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
+
+    #Change the text of the "next question" button if the user is on the last question
+    nextQuestionText = "Gå til neste spørsmål"
+    if (index+1) == len(spm):
+        nextQuestionText = "Start quiz på nytt?"
     
+    print index + 1
     #Question as a label
-    labelText = StringVar()
-    labelText.set(question)
-    question = Label(app, textvariable=labelText, height="3", wraplength="250").pack()
+
+    labelText2 = StringVar()
+    labelText2.set(question)
+    question = Label(app, textvariable=labelText2, height="3").pack()
 
     #Value for radiobutton
     rbValue = StringVar(value=2)
     rbValue2 = StringVar()
     
     #Answer button
-    answerbutton = Button(app, text="Check Answer", width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get()))
+    answerbutton = Button(app, text="Check Answer", font="10", width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get()))
     #Radiobuttons
     #This is made to support questions with varying number of alternatives
     #radiobuttons also sets the answer button to active, to keep the application from crashing
@@ -106,18 +119,31 @@ def present_question(index):
         rb = Radiobutton(rbContainer, text=spm[index][valueString], justify="left",  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active"))
         rb.pack(anchor="w")
     rbContainer.pack()
+
     #Answer button rendering
     answerbutton.pack()
 
     #Next question button
-    nextquestion = Button(app, text="Gå til neste spørsmål", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
-    discontinue = Button(app, text="Avslutt quiz", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
+    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
 
 
 # Gives feedback to the user with the help of the UI
 def give_feedback(index, answer):
     remove_frames()
     question = spm[index]["q"]
+
+    #Progression in the quiz
+    progressionText = "Spørsmål " + str((index+1)) + " av " + str(len(spm))
+    labelText1 = StringVar()
+    labelText1.set(progressionText)
+    questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
+    
+    print index + 1
+    #Change the text of the "next question" button if the user is on the last question
+    nextQuestionText = "Gå til neste spørsmål"
+    if (index+1) == len(spm):
+        nextQuestionText = "Start quiz på nytt?"
     
     #Question as a label
     labelText = StringVar()
@@ -157,22 +183,22 @@ def give_feedback(index, answer):
     evaluate_question(index, answer)
     
     #Next question button
-    nextquestion = Button(app, text="Gå til neste spørsmål", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
-    discontinue = Button(app, text="Avslutt quiz", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
+    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
     
 
 def front_page():
     remove_frames()
     labelText = StringVar()
-    labelText.set("Velkommen til quiz i praktisk prosjektledelse")
-    title = Label(app, textvariable=labelText, height="3", ).pack()
+    labelText.set("Velkommen til Quiz i Praktisk Prosjektledelse!")
+    title = Label(app, textvariable=labelText, height="3", font="30").pack()
     #title.config(font=("Arial",30))
 
-    Button(app, text="Start quiz", width=20, padx=5, pady=5, command = lambda: present_question(0)).pack()
+    Button(app, text="Start Quiz", width=20, font="10", padx=10, pady=10, command = lambda: present_question(0)).pack()
 
     labelText = StringVar()
     labelText.set("Laget av gruppe 19.")
-    title = Label(app, textvariable=labelText, height="3", ).pack()
+    title = Label(app, textvariable=labelText, height="3", font="20").pack()
     
     
 # Initiate the UI
