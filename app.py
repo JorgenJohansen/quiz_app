@@ -62,7 +62,7 @@ def evaluate_question(index, answer):
     else:
         labelText = StringVar()
         labelText.set(spm[index]["read"])
-        feedbackMessage = Label(app, textvariable=labelText, height="3", font="8").pack()
+        feedbackMessage = Label(app, textvariable=labelText, wraplength="400", height="3", font="8").pack()
     
 #This function removes all unessary widgets from the frame
 def remove_frames():
@@ -107,7 +107,7 @@ def present_question(index):
 
     labelText2 = StringVar()
     labelText2.set(question)
-    question = Label(app, textvariable=labelText2, height="3", font=titleFont).pack()
+    question = Label(app, textvariable=labelText2, height="3", wraplength="400", font=titleFont).pack()
 
     #Value for radiobutton
     rbValue = StringVar(value=2)
@@ -157,7 +157,7 @@ def give_feedback(index, answer):
     #Question as a label
     labelText = StringVar()
     labelText.set(question)
-    question = Label(app, textvariable=labelText, height="3", wraplength="250", font=titleFont).pack()
+    question = Label(app, textvariable=labelText, height="3", wraplength="400", font=titleFont).pack()
 
     #Render labels with varying colors of corretnes
     #Red is for wrong answer, green is for right answer
