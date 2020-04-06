@@ -139,7 +139,7 @@ def give_feedback(index, answer):
     labelText1.set(progressionText)
     questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
     
-    print index + 1
+    #print index + 1
     #Change the text of the "next question" button if the user is on the last question
     nextQuestionText = "Gå til neste spørsmål"
     if (index+1) == len(spm):
