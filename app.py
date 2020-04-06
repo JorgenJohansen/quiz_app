@@ -6,6 +6,7 @@ import json, pprint, io
 app = Tk()
 app.title("Quiz Application")
 app.geometry('600x600+200+200')
+#app.configure(borderwidth=2, relief="solid")
 
 #Dummy data:
 #Can be deleted when questions are imported from spm.json
@@ -198,16 +199,18 @@ def give_feedback(index, answer):
 
 def front_page():
     remove_frames()
+    frontPageContainer = Frame(app)
     labelText = StringVar()
     labelText.set("Velkommen til Quiz i Praktisk Prosjektledelse!")
-    title = Label(app, textvariable=labelText, height="3", font="30").pack()
+    title = Label(frontPageContainer, textvariable=labelText, height="3", font="30").pack()
     #title.config(font=("Arial",30))
 
-    Button(app, text="Start Quiz", width=20, font="10", padx=20, pady=20, command = lambda: present_question(0)).pack()
+    Button(frontPageContainer, text="Start Quiz", width=20, font="10", padx=20, pady=20, command = lambda: present_question(0)).pack()
 
     labelText = StringVar()
     labelText.set("Laget av gruppe 19.")
-    title = Label(app, textvariable=labelText, height="3", font="20").pack()
+    title = Label(frontPageContainer, textvariable=labelText, height="3", font="20").pack()
+    frontPageContainer.pack()
     
     
 # Initiate the UI
