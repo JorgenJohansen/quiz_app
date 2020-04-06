@@ -31,6 +31,17 @@ spm = [
     }
 ]
 
+stats = {
+    "rightAnswers": 0,
+    "wrongAnswers": 0
+}
+'''
+stats["wrongAnswers"] += 1
+stats["rightAnswers"] += 1
+print stats["wrongAnswers"]
+print stats["rightAnswers"]
+'''
+
 # Import questions, return JSON object with questions, answers, and more reading material
 # Requires the JSON object to be in same dictionary and named: spm.json
 # May be modified to account for different paths and names for JSON object
@@ -59,10 +70,12 @@ def evaluate_question(index, answer):
         labelText = StringVar()
         labelText.set("Riktig Svar! Bra jobba!")
         feedbackMessage = Label(app, textvariable=labelText, height="3", font="10", foreground="green").pack()
+        stats["rightAnswers"] += 1
     else:
         labelText = StringVar()
         labelText.set(spm[index]["read"])
         feedbackMessage = Label(app, textvariable=labelText, height="3", font="10").pack()
+        stats["wrongAnswers"] += 1
     
 #This function removes all unessary widgets from the frame
 def remove_frames():
@@ -93,11 +106,12 @@ def present_question(index):
     questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
 
     #Change the text of the "next question" button if the user is on the last question
+    '''
     nextQuestionText = "Gå til neste spørsmål"
     if (index+1) == len(spm):
         nextQuestionText = "Start quiz på nytt?"
-    
-    print index + 1
+    '''
+    #print index + 1
     #Question as a label
 
     labelText2 = StringVar()
@@ -124,7 +138,17 @@ def present_question(index):
     answerbutton.pack()
 
     #Next question button
-    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    nextquestion = Button(app, text="Gå til neste spørsmål", font="10", width=20, padx=5, pady=5, command = lambda: next_question(index))
+    
+    #Stat page button
+    statpage = Button(app, text="Avsluttende Statistikk", font="10", width=20, padx=5, pady=5, command = lambda: stat_page())
+
+    #Rendering the right button on where we are in the quiz
+    if (index+1) < len(spm):
+        nextquestion.pack()
+    else:
+        statpage.pack()
+    #Discontinue button
     discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
 
 
@@ -139,11 +163,9 @@ def give_feedback(index, answer):
     labelText1.set(progressionText)
     questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
     
-    print index + 1
+    #print index + 1
     #Change the text of the "next question" button if the user is on the last question
-    nextQuestionText = "Gå til neste spørsmål"
-    if (index+1) == len(spm):
-        nextQuestionText = "Start quiz på nytt?"
+    #nextQuestionText = "Gå til neste spørsmål"
     
     #Question as a label
     labelText = StringVar()
@@ -183,12 +205,26 @@ def give_feedback(index, answer):
     evaluate_question(index, answer)
     
     #Next question button
-    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+
+    nextquestion = Button(app, text="Gå til neste spørsmål", font="10", width=20, padx=5, pady=5, command = lambda: next_question(index))
+
+    #Stat page button
+    statpage = Button(app, text="Avsluttende Statistikk", font="10", width=20, padx=5, pady=5, command = lambda: stat_page())
+
+    #Rendering the right button on where we are in the quiz
+    if (index+1) < len(spm):
+        nextquestion.pack()
+    else:
+        statpage.pack()
     discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
     
 
 def front_page():
     remove_frames()
+    #Rest progress
+    stats["rightAnswers"] = 0
+    stats["wrongAnswers"] = 0
+
     labelText = StringVar()
     labelText.set("Velkommen til Quiz i Praktisk Prosjektledelse!")
     title = Label(app, textvariable=labelText, height="3", font="30").pack()
@@ -199,7 +235,38 @@ def front_page():
     labelText = StringVar()
     labelText.set("Laget av gruppe 19.")
     title = Label(app, textvariable=labelText, height="3", font="20").pack()
+
+
+def stat_page():
+    remove_frames()
+    labelText = StringVar()
+    labelText.set("Avsluttende Statistikk")
+    Label(app, textvariable=labelText, height="3", font="20").pack()
     
+    if stats["rightAnswers"] == len(spm):
+        labelText = StringVar()
+        labelText.set("Supert! Du hadde rett på alt!")
+        Label(app, textvariable=labelText, height="3", font="10").pack()
+    else:
+        labelText = StringVar()
+        labelText.set("Du hadde " + str(stats["rightAnswers"]) + " riktige svar av " + str(len(spm)) + ".")
+        Label(app, textvariable=labelText, height="3", font="10").pack()
+
+        labelText = StringVar()
+        labelText.set("Du hadde " + str(stats["wrongAnswers"]) + " feil svar av " + str(len(spm)) + ".")
+        Label(app, textvariable=labelText, height="3", font="10").pack()
+
+        
+        uansweredQuestions = len(spm) - stats["wrongAnswers"] - stats["rightAnswers"]
+        labelText = StringVar()
+        labelText.set("Du hadde " + str(uansweredQuestions) + " ubesvarte spørsmål.")
+        message = Label(app, textvariable=labelText, height="3", font="10")
+        if uansweredQuestions > 0:
+            message.pack()
+
+    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
+
+
     
 # Initiate the UI
 def init_ui():
