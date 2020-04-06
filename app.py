@@ -48,7 +48,7 @@ print stats["rightAnswers"]
 def import_questions():
     #global spm
     try:
-        with io.open('spm.json', 'r', encoding='utf-8') as fh:
+        with io.open('test.json', 'r', encoding='utf-8') as fh:
             json_object = json.load(fh)
             json_file = json_object.get(u'spm')
             return json_file
@@ -256,7 +256,6 @@ def stat_page():
         labelText.set("Du hadde " + str(stats["wrongAnswers"]) + " feil svar av " + str(len(spm)) + ".")
         Label(app, textvariable=labelText, height="3", font="10").pack()
 
-        
         uansweredQuestions = len(spm) - stats["wrongAnswers"] - stats["rightAnswers"]
         labelText = StringVar()
         labelText.set("Du hadde " + str(uansweredQuestions) + " ubesvarte spørsmål.")
