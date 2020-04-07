@@ -58,7 +58,7 @@ state = {
     "questionLimit": len(import_questions())
 }
 
-print state["questionLimit"]
+#print state["questionLimit"]
 
 # Evaluates a question, returns True if correct answer, False otherwise
 def evaluate_question(index, answer):
@@ -79,29 +79,45 @@ def remove_frames():
 #This function goes to the next question
 #It can only increment the i value if i is less then the length of the list
 #If i is equal to the length of the list i will be set to 0(first question)
-def next_question(i):
+def next_question(i, questionLimit):
     remove_frames()
     #print i
-    if i == state["questionLimit"]-1:
+    if i == questionLimit-1:
         i = 0
-    elif i < state["questionLimit"]-1:
+    elif i < questionLimit-1:
         i += 1
-    present_question(i)
+    present_question(i, questionLimit)
 
 # Presents a question to the user with the help of the UI
-def present_question(index):
+def present_question(index, questionLimit):
     remove_frames()
-    question = spm[index]["q"]
+    #print questionLimit
 
+    #Error handling
+    #Though this need improvements before we can merge with master
+    if questionLimit > len(import_questions()) or questionLimit == "":
+        questionLimit = len(import_questions())
+    
+    #print questionLimit
+    #totalQuestions = len(import_questions())
+    #Handling of user input
+    '''
+    if questionLimit <= totalQuestions | isinstance(questionLimit, int):
+        state["questionLimit"] = questionLimit
+    else:
+        state["questionLimit"] = totalQuestions
+    '''
+
+    question = spm[index]["q"]
     #Progression in the quiz
-    progressionText = "Spørsmål " + str((index+1)) + " av " + str(len(spm))
+    progressionText = "Spørsmål " + str((index+1)) + " av " + str(questionLimit)
     labelText1 = StringVar()
     labelText1.set(progressionText)
     questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
 
     #Change the text of the "next question" button if the user is on the last question
     nextQuestionText = "Gå til neste spørsmål"
-    if (index+1) == len(spm):
+    if (index+1) == questionLimit:
         nextQuestionText = "Start quiz på nytt?"
     
     #print index + 1
@@ -116,7 +132,7 @@ def present_question(index):
     rbValue2 = StringVar()
     
     #Answer button
-    answerbutton = Button(app, text="Check Answer", font="10", width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get()))
+    answerbutton = Button(app, text="Check Answer", font="10", width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get(),questionLimit))
     #Radiobuttons
     #This is made to support questions with varying number of alternatives
     #radiobuttons also sets the answer button to active, to keep the application from crashing
@@ -131,17 +147,17 @@ def present_question(index):
     answerbutton.pack()
 
     #Next question button
-    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index, questionLimit)).pack()
     discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
 
 
 # Gives feedback to the user with the help of the UI
-def give_feedback(index, answer):
+def give_feedback(index, answer, questionLimit):
     remove_frames()
     question = spm[index]["q"]
 
     #Progression in the quiz
-    progressionText = "Spørsmål " + str((index+1)) + " av " + str(len(spm))
+    progressionText = "Spørsmål " + str((index+1)) + " av " + str(questionLimit)
     labelText1 = StringVar()
     labelText1.set(progressionText)
     questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
@@ -149,7 +165,7 @@ def give_feedback(index, answer):
     #print index + 1
     #Change the text of the "next question" button if the user is on the last question
     nextQuestionText = "Gå til neste spørsmål"
-    if (index+1) == len(spm):
+    if (index+1) == questionLimit:
         nextQuestionText = "Start quiz på nytt?"
     
     #Question as a label
@@ -190,7 +206,7 @@ def give_feedback(index, answer):
     evaluate_question(index, answer)
     
     #Next question button
-    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index)).pack()
+    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index, questionLimit)).pack()
     discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
     
 
@@ -210,28 +226,32 @@ def front_page():
     #Input field
     labelText = StringVar()
     labelText.set(str(totalQuestions))
-    entry = Entry(app, width="2", font="10", text="labelText")
+    entry = Entry(app, width="2", font="10")
     #entry.configure(width="2", font="10")
-    #entry.insert(0,str(totalQuestions))
+    entry.insert(0,totalQuestions)
     entry.grid(row=0, column=0)
     entry.pack()
-    print entry.get()
-
-    #
+    #print entry.get()
+    #limit = int(entry.get())
+    #print(limit)
+    #print(type(limit))
+    
     labelText = StringVar()
     labelText.set("av " + str(totalQuestions))
     title = Label(app, textvariable=labelText, font="10")
     title.grid(row=0, column=1)
     title.pack()
-
-    #Handling of user input
-    if entry.get() <= totalQuestions | isinstance(entry.get(), int):
-        state["questionLimit"] = entry.get()
-    else:
-        state["questionLimit"] = totalQuestions
     
-    Button(app, text="Start Quiz", width=20, font="10", padx="10", pady="10", command = lambda: present_question(0)).pack(pady=20)
-
+    startbutton = Button(app, text="Start Quiz", width=20, font="10", padx="10", pady="10", command = lambda: present_question(0, int(entry.get())))
+    startbutton.pack(pady=20)
+    '''
+    if entry.get() == "":
+        print "can't be empty"
+    elif int(entry.get()) > totalQuestions:
+        print "can't be bigger than " + str(totalQuestions)
+    else:
+        startbutton.configure(state="active")
+    '''
     labelText = StringVar()
     labelText.set("Laget av gruppe 19.")
     title = Label(app, textvariable=labelText, height="3", font="20").pack()
