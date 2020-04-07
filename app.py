@@ -104,7 +104,7 @@ def present_question(index):
     if (index+1) == len(spm):
         nextQuestionText = "Start quiz på nytt?"
     
-    print index + 1
+    #print index + 1
     #Question as a label
 
     labelText2 = StringVar()
@@ -146,7 +146,7 @@ def give_feedback(index, answer):
     labelText1.set(progressionText)
     questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
     
-    print index + 1
+    #print index + 1
     #Change the text of the "next question" button if the user is on the last question
     nextQuestionText = "Gå til neste spørsmål"
     if (index+1) == len(spm):
@@ -196,12 +196,41 @@ def give_feedback(index, answer):
 
 def front_page():
     remove_frames()
+
+
+    totalQuestions = len(import_questions())
     labelText = StringVar()
     labelText.set("Velkommen til Quiz i Praktisk Prosjektledelse!")
     title = Label(app, textvariable=labelText, height="3", font="30").pack()
     #title.config(font=("Arial",30))
+    labelText = StringVar()
+    labelText.set("Hvor mange spørsmål vil du svare på?")
+    title = Label(app, textvariable=labelText, height="3", font="10").pack()
+    
+    #Input field
+    labelText = StringVar()
+    labelText.set(str(totalQuestions))
+    entry = Entry(app, width="2", font="10", text="labelText")
+    #entry.configure(width="2", font="10")
+    #entry.insert(0,str(totalQuestions))
+    entry.grid(row=0, column=0)
+    entry.pack()
+    print entry.get()
 
-    Button(app, text="Start Quiz", width=20, font="10", padx=10, pady=10, command = lambda: present_question(0)).pack()
+    #
+    labelText = StringVar()
+    labelText.set("av " + str(totalQuestions))
+    title = Label(app, textvariable=labelText, font="10")
+    title.grid(row=0, column=1)
+    title.pack()
+
+    #Handling of user input
+    if entry.get() <= totalQuestions | isinstance(entry.get(), int):
+        state["questionLimit"] = entry.get()
+    else:
+        state["questionLimit"] = totalQuestions
+    
+    Button(app, text="Start Quiz", width=20, font="10", padx="10", pady="10", command = lambda: present_question(0)).pack(pady=20)
 
     labelText = StringVar()
     labelText.set("Laget av gruppe 19.")
