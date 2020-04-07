@@ -31,6 +31,8 @@ spm = [
     }
 ]
 
+
+
 # Import questions, return JSON object with questions, answers, and more reading material
 # Requires the JSON object to be in same dictionary and named: spm.json
 # May be modified to account for different paths and names for JSON object
@@ -52,6 +54,11 @@ def import_questions():
         print ('Useing default dummy data instead')
         return spm
 
+state = {
+    "questionLimit": len(import_questions())
+}
+
+print state["questionLimit"]
 
 # Evaluates a question, returns True if correct answer, False otherwise
 def evaluate_question(index, answer):
@@ -75,9 +82,9 @@ def remove_frames():
 def next_question(i):
     remove_frames()
     #print i
-    if i == len(spm)-1:
+    if i == state["questionLimit"]-1:
         i = 0
-    elif i < len(spm)-1:
+    elif i < state["questionLimit"]-1:
         i += 1
     present_question(i)
 
