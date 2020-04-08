@@ -89,20 +89,26 @@ def next_question(i, questionLimit):
     present_question(i, questionLimit)
 
 # Presents a question to the user with the help of the UI
-def present_question(index, questionLimit):
+def present_question(index, limit):
     remove_frames()
     #print questionLimit
-
+    #print type(limit)
+    
     #Error handling
     #Though this need improvements before we can merge with master
-    if questionLimit > len(import_questions()) or questionLimit == "":
+    #If user enters in an empty string, to big number or just zero, 
+    #it sets the questionLimit to the length of all the questions
+    if limit == '' or int(limit) > len(import_questions()) or int(limit) == 0:
         questionLimit = len(import_questions())
-    
+        print "inne i if"
+    else:
+        print "inne i else"
+        questionLimit = int(limit)
     #print questionLimit
     #totalQuestions = len(import_questions())
     #Handling of user input
     '''
-    if questionLimit <= totalQuestions | isinstance(questionLimit, int):
+    if questionLimit <= totalQuestions or isinstance(questionLimit, int):
         state["questionLimit"] = questionLimit
     else:
         state["questionLimit"] = totalQuestions
@@ -242,7 +248,7 @@ def front_page():
     title.grid(row=0, column=1)
     title.pack()
     
-    startbutton = Button(app, text="Start Quiz", width=20, font="10", padx="10", pady="10", command = lambda: present_question(0, int(entry.get())))
+    startbutton = Button(app, text="Start Quiz", width=20, font="10", padx="10", pady="10", command = lambda: present_question(0, entry.get()))
     startbutton.pack(pady=20)
     '''
     if entry.get() == "":
