@@ -166,7 +166,7 @@ def present_question(index, limit):
     else:
         statpage.pack()
     #Discontinue button
-    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
+    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page(questionLimit)).pack()
 
 
 # Gives feedback to the user with the help of the UI
@@ -238,10 +238,10 @@ def give_feedback(index, answer, questionLimit):
         nextquestion.pack()
     else:
         statpage.pack()
-    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
+    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page(questionLimit)).pack()
     
 
-def front_page():
+def front_page(limit):
     remove_frames()
 
     #Reset progress:
@@ -258,11 +258,11 @@ def front_page():
     title = Label(app, textvariable=labelText, height="3", font="10").pack()
     
     #Input field
-    labelText = StringVar()
-    labelText.set(str(totalQuestions))
+    #labelText = StringVar()
+    #labelText.set(str(limit))
     entry = Entry(app, width="2", font="10")
     #entry.configure(width="2", font="10")
-    entry.insert(0,totalQuestions)
+    entry.insert(0,limit)
     entry.grid(row=0, column=0)
     entry.pack()
     #print entry.get()
@@ -317,13 +317,14 @@ def stat_page(questionLimit):
         if uansweredQuestions > 0:
             message.pack()
 
-    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
+    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page(questionLimit)).pack()
 
 
     
 # Initiate the UI
 def init_ui():
-    front_page()
+    limit = len(import_questions())
+    front_page(limit)
 
 # Main function
 def main():
