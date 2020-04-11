@@ -103,11 +103,11 @@ def present_question(index, limit):
     #Though this need improvements before we can merge with master
     #If user enters in an empty string, to big number or just zero, 
     #it sets the questionLimit to the length of all the questions
-    if limit == '' or int(limit) > len(import_questions()) or int(limit) == 0:
+    if limit == '' or type or isinstance(limit,float) > len(import_questions()) or int(limit) == 0 or int(limit) < 0:
         questionLimit = len(import_questions())
-        print "inne i if"
+        #print "inne i if"
     else:
-        print "inne i else"
+        #print "inne i else"
         questionLimit = int(limit)
 
     question = spm[index]["q"]
