@@ -147,7 +147,7 @@ def present_question(index, limit):
     rbContainer = Frame(app)
     for i in range(1, len(spm[index])-2):
         valueString = "a" + str(i)
-        rb = Radiobutton(rbContainer, text=spm[index][valueString], justify="left", font="10",  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active"))
+        rb = Radiobutton(rbContainer, text=spm[index][valueString], justify="left", font=labelFont,  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active"))
         rb.pack(anchor="w")
     rbContainer.pack()
 
@@ -155,10 +155,10 @@ def present_question(index, limit):
     answerbutton.pack()
 
     #Next question button
-    nextquestion = Button(app, text="Gå til neste spørsmål", font="10", width=20, padx=5, pady=5, command = lambda: next_question(index,questionLimit))
+    nextquestion = Button(app, text="Gå til neste spørsmål", font=buttonFont, width=20, padx=5, pady=5, command = lambda: next_question(index,questionLimit))
     
     #Stat page button
-    statpage = Button(app, text="Avsluttende Statistikk", font="10", width=20, padx=5, pady=5, command = lambda: stat_page(questionLimit))
+    statpage = Button(app, text="Avsluttende Statistikk", font=buttonFont, width=20, padx=5, pady=5, command = lambda: stat_page(questionLimit))
 
     #Rendering the right button on where we are in the quiz
     if (index+1) < limit:
@@ -228,10 +228,10 @@ def give_feedback(index, answer, questionLimit):
     
     #Next question button
 
-    nextquestion = Button(app, text="Gå til neste spørsmål", font="10", width=20, padx=5, pady=5, command = lambda: next_question(index, questionLimit))
+    nextquestion = Button(app, text="Gå til neste spørsmål", font=buttonFont, width=20, padx=5, pady=5, command = lambda: next_question(index, questionLimit))
 
     #Stat page button
-    statpage = Button(app, text="Avsluttende Statistikk", font="10", width=20, padx=5, pady=5, command = lambda: stat_page(questionLimit))
+    statpage = Button(app, text="Avsluttende Statistikk", font=buttonFont, width=20, padx=5, pady=5, command = lambda: stat_page(questionLimit))
 
     #Rendering the right button on where we are in the quiz
     if (index+1) < questionLimit:
@@ -243,6 +243,10 @@ def give_feedback(index, answer, questionLimit):
 
 def front_page(limit):
     remove_frames()
+
+    #Fontsize:
+    buttonFont = "10"
+    labelFont = "10"
 
     #Reset progress:
     stats["wrongAnswers"] = 0
@@ -260,7 +264,7 @@ def front_page(limit):
     #Input field
     #labelText = StringVar()
     #labelText.set(str(limit))
-    entry = Entry(app, width="2", font="10")
+    entry = Entry(app, width="2", font=labelFont)
     #entry.configure(width="2", font="10")
     entry.insert(0,limit)
     entry.grid(row=0, column=0)
@@ -272,11 +276,11 @@ def front_page(limit):
     
     labelText = StringVar()
     labelText.set("av " + str(totalQuestions))
-    title = Label(app, textvariable=labelText, font="10")
+    title = Label(app, textvariable=labelText, font=labelFont)
     title.grid(row=0, column=1)
     title.pack()
     
-    startbutton = Button(app, text="Start Quiz", width=20, font="10", padx="10", pady="10", command = lambda: present_question(0, entry.get()))
+    startbutton = Button(app, text="Start Quiz", width=20, font=buttonFont, padx="10", pady="10", command = lambda: present_question(0, entry.get()))
     startbutton.pack(pady=20)
     '''
     if entry.get() == "":
@@ -293,27 +297,32 @@ def front_page(limit):
 
 def stat_page(questionLimit):
     remove_frames()
+
+    #Fontsize:
+    titleFont = "20"
+    labelFont = "10"
+
     labelText = StringVar()
     labelText.set("Avsluttende Statistikk")
-    Label(app, textvariable=labelText, height="3", font="20").pack()
+    Label(app, textvariable=labelText, height="3", font=titleFont).pack()
     
     if stats["rightAnswers"] == questionLimit:
         labelText = StringVar()
         labelText.set("Supert! Du hadde rett på alt!")
-        Label(app, textvariable=labelText, height="3", font="10").pack()
+        Label(app, textvariable=labelText, height="3", font=labelFont).pack()
     else:
         labelText = StringVar()
         labelText.set("Du hadde " + str(stats["rightAnswers"]) + " riktige svar av " + str(questionLimit) + ".")
-        Label(app, textvariable=labelText, height="3", font="10").pack()
+        Label(app, textvariable=labelText, height="3", font=labelFont).pack()
 
         labelText = StringVar()
         labelText.set("Du hadde " + str(stats["wrongAnswers"]) + " feil svar av " + str(questionLimit) + ".")
-        Label(app, textvariable=labelText, height="3", font="10").pack()
+        Label(app, textvariable=labelText, height="3", font=labelFont).pack()
 
         uansweredQuestions = questionLimit - stats["wrongAnswers"] - stats["rightAnswers"]
         labelText = StringVar()
         labelText.set("Du hadde " + str(uansweredQuestions) + " ubesvarte spørsmål.")
-        message = Label(app, textvariable=labelText, height="3", font="10")
+        message = Label(app, textvariable=labelText, height="3", font=labelFont)
         if uansweredQuestions > 0:
             message.pack()
 
