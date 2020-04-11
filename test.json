@@ -1,0 +1,20 @@
+{
+    "spm":[
+        {
+            "q": "Påstand: Et prosjekt består av en rekke repeterende oppgaver",
+            "a1": "Sant",
+            "a2": "Usant",
+            "answer": "Usant",
+            "read": "Du kan lese mer om dette i kapittel: "
+        },
+        {
+            "q": "Hvilken av følgende oppgaver kan defineres som et prosjekt?",
+            "a1": "Et mobiltelefonselskap aktiverer en ny kundetjeneste",
+            "a2": "En bilprodusent produserer en dags kvote med kjøretøy",
+            "a3": "Et IT-firma utvikler en ny “Crash proof” operativsystem",
+            "a4": "En forhandler fyller på hyllene etter en dag med mye salg.",
+            "answer": "Et IT-firma utvikler en ny “Crash proof” operativsystem",
+            "read": "Du kan lese mer om dette i kapittel: "
+        }
+    ]
+}

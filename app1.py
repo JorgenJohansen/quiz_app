@@ -6,7 +6,6 @@ import json, pprint, io
 app = Tk()
 app.title("Quiz Application")
 app.geometry('600x600+200+200')
-#app.configure(borderwidth=2, relief="solid")
 
 #Dummy data:
 #Can be deleted when questions are imported from spm.json
@@ -32,16 +31,7 @@ spm = [
     }
 ]
 
-stats = {
-    "rightAnswers": 0,
-    "wrongAnswers": 0
-}
-'''
-stats["wrongAnswers"] += 1
-stats["rightAnswers"] += 1
-print stats["wrongAnswers"]
-print stats["rightAnswers"]
-'''
+
 
 # Import questions, return JSON object with questions, answers, and more reading material
 # Requires the JSON object to be in same dictionary and named: spm.json
@@ -64,6 +54,11 @@ def import_questions():
         print ('Useing default dummy data instead')
         return spm
 
+state = {
+    "questionLimit": len(import_questions())
+}
+
+#print state["questionLimit"]
 
 # Evaluates a question, returns True if correct answer, False otherwise
 def evaluate_question(index, answer):
@@ -71,12 +66,10 @@ def evaluate_question(index, answer):
         labelText = StringVar()
         labelText.set("Riktig Svar! Bra jobba!")
         feedbackMessage = Label(app, textvariable=labelText, height="3", font="10", foreground="green").pack()
-        stats["rightAnswers"] += 1
     else:
         labelText = StringVar()
         labelText.set(spm[index]["read"])
         feedbackMessage = Label(app, textvariable=labelText, height="3", font="10").pack()
-        stats["wrongAnswers"] += 1
     
 #This function removes all unessary widgets from the frame
 def remove_frames():
@@ -86,56 +79,73 @@ def remove_frames():
 #This function goes to the next question
 #It can only increment the i value if i is less then the length of the list
 #If i is equal to the length of the list i will be set to 0(first question)
-def next_question(i):
+def next_question(i, questionLimit):
     remove_frames()
     #print i
-    if i == len(spm)-1:
+    if i == questionLimit-1:
         i = 0
-    elif i < len(spm)-1:
+    elif i < questionLimit-1:
         i += 1
-    present_question(i)
+    present_question(i, questionLimit)
 
 # Presents a question to the user with the help of the UI
-def present_question(index):
+def present_question(index, limit):
     remove_frames()
+    #print questionLimit
+    #print type(limit)
+    
+    #Error handling
+    #Though this need improvements before we can merge with master
+    #If user enters in an empty string, to big number or just zero, 
+    #it sets the questionLimit to the length of all the questions
+    if limit == '' or int(limit) > len(import_questions()) or int(limit) == 0:
+        questionLimit = len(import_questions())
+        print "inne i if"
+    else:
+        print "inne i else"
+        questionLimit = int(limit)
+    #print questionLimit
+    #totalQuestions = len(import_questions())
+    #Handling of user input
+    '''
+    if questionLimit <= totalQuestions or isinstance(questionLimit, int):
+        state["questionLimit"] = questionLimit
+    else:
+        state["questionLimit"] = totalQuestions
+    '''
+
     question = spm[index]["q"]
-
-    #Fontsize:
-    titleFont = "15"
-    labelFont = "10"
-    buttonFont = "8"
-
     #Progression in the quiz
-    progressionText = "Spørsmål " + str((index+1)) + " av " + str(len(spm))
+    progressionText = "Spørsmål " + str((index+1)) + " av " + str(questionLimit)
     labelText1 = StringVar()
     labelText1.set(progressionText)
-    progressionTitle = Label(app, textvariable=labelText1, font=titleFont, height="3").pack()
+    questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
 
     #Change the text of the "next question" button if the user is on the last question
-    '''
     nextQuestionText = "Gå til neste spørsmål"
-    if (index+1) == len(spm):
+    if (index+1) == questionLimit:
         nextQuestionText = "Start quiz på nytt?"
-    '''
+    
     #print index + 1
     #Question as a label
 
     labelText2 = StringVar()
     labelText2.set(question)
-    question = Label(app, textvariable=labelText2, height="3", wraplength="400", font=titleFont).pack()
+    question = Label(app, textvariable=labelText2, height="3").pack()
 
     #Value for radiobutton
     rbValue = StringVar(value=2)
+    rbValue2 = StringVar()
     
     #Answer button
-    answerbutton = Button(app, text="Sjekk svar", font=buttonFont, width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get()))
+    answerbutton = Button(app, text="Check Answer", font="10", width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get(),questionLimit))
     #Radiobuttons
     #This is made to support questions with varying number of alternatives
     #radiobuttons also sets the answer button to active, to keep the application from crashing
     rbContainer = Frame(app)
     for i in range(1, len(spm[index])-2):
         valueString = "a" + str(i)
-        rb = Radiobutton(rbContainer, text=spm[index][valueString], justify="left", font="10",  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active"))
+        rb = Radiobutton(rbContainer, text=spm[index][valueString], justify="left",  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active"))
         rb.pack(anchor="w")
     rbContainer.pack()
 
@@ -143,44 +153,31 @@ def present_question(index):
     answerbutton.pack()
 
     #Next question button
-    nextquestion = Button(app, text="Gå til neste spørsmål", font="10", width=20, padx=5, pady=5, command = lambda: next_question(index))
-    
-    #Stat page button
-    statpage = Button(app, text="Avsluttende Statistikk", font="10", width=20, padx=5, pady=5, command = lambda: stat_page())
-
-    #Rendering the right button on where we are in the quiz
-    if (index+1) < len(spm):
-        nextquestion.pack()
-    else:
-        statpage.pack()
-    #Discontinue button
+    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index, questionLimit)).pack()
     discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
 
 
 # Gives feedback to the user with the help of the UI
-def give_feedback(index, answer):
+def give_feedback(index, answer, questionLimit):
     remove_frames()
     question = spm[index]["q"]
 
-    #Fontsize:
-    titleFont = "15"
-    labelFont = "10"
-    buttonFont = "8"
-
     #Progression in the quiz
-    progressionText = "Spørsmål " + str((index+1)) + " av " + str(len(spm))
+    progressionText = "Spørsmål " + str((index+1)) + " av " + str(questionLimit)
     labelText1 = StringVar()
     labelText1.set(progressionText)
-    progressionTitle = Label(app, textvariable=labelText1, font=titleFont, height="3").pack()
+    questionTitle = Label(app, textvariable=labelText1, font="30", height="3").pack()
     
     #print index + 1
     #Change the text of the "next question" button if the user is on the last question
-    #nextQuestionText = "Gå til neste spørsmål"
+    nextQuestionText = "Gå til neste spørsmål"
+    if (index+1) == questionLimit:
+        nextQuestionText = "Start quiz på nytt?"
     
     #Question as a label
     labelText = StringVar()
     labelText.set(question)
-    question = Label(app, textvariable=labelText, height="3", wraplength="400", font=titleFont).pack()
+    question = Label(app, textvariable=labelText, height="3", wraplength="250").pack()
 
     #Render labels with varying colors of corretnes
     #Red is for wrong answer, green is for right answer
@@ -191,10 +188,10 @@ def give_feedback(index, answer):
             valueString = "a" + str(i)
             if spm[index]["answer"] == spm[index][valueString]:
                 labelText.set(spm[index][valueString])
-                Label(answerContainer, textvariable=labelText, height="2", font=labelFont, foreground="green").pack(anchor="w")
+                Label(answerContainer, textvariable=labelText, height="2", foreground="green").pack(anchor="w")
             else:
                 labelText.set(spm[index][valueString])
-                Label(answerContainer, textvariable=labelText, height="2", font=labelFont, foreground="red").pack(anchor="w")
+                Label(answerContainer, textvariable=labelText, height="2", foreground="red").pack(anchor="w")
     else:
         for i in range(1,len(spm[index])-2):
             labelText = StringVar()
@@ -205,77 +202,66 @@ def give_feedback(index, answer):
             if spm[index][answer] == spm[index][valueString]:
                 #print "du er rød"
                 labelText.set(spm[index][valueString])
-                Label(answerContainer, textvariable=labelText, height="2", font=labelFont, foreground="red").pack(anchor="w")
+                Label(answerContainer, textvariable=labelText, height="2", foreground="red").pack(anchor="w")
             else:
                 #print "du er svart"
                 labelText.set(spm[index][valueString])
-                Label(answerContainer, textvariable=labelText, height="2", font=labelFont, foreground="black").pack(anchor="w")
+                Label(answerContainer, textvariable=labelText, height="2", foreground="black").pack(anchor="w")
 
     answerContainer.pack()
     evaluate_question(index, answer)
     
     #Next question button
-
-    nextquestion = Button(app, text="Gå til neste spørsmål", font="10", width=20, padx=5, pady=5, command = lambda: next_question(index))
-
-    #Stat page button
-    statpage = Button(app, text="Avsluttende Statistikk", font="10", width=20, padx=5, pady=5, command = lambda: stat_page())
-
-    #Rendering the right button on where we are in the quiz
-    if (index+1) < len(spm):
-        nextquestion.pack()
-    else:
-        statpage.pack()
+    nextquestion = Button(app, text=nextQuestionText, font="10", width=20, padx=5, pady=5, command = lambda: next_question(index, questionLimit)).pack()
     discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
     
 
 def front_page():
     remove_frames()
-    #Rest progress
-    stats["rightAnswers"] = 0
-    stats["wrongAnswers"] = 0
 
+
+    totalQuestions = len(import_questions())
     labelText = StringVar()
     labelText.set("Velkommen til Quiz i Praktisk Prosjektledelse!")
     title = Label(app, textvariable=labelText, height="3", font="30").pack()
     #title.config(font=("Arial",30))
-
-    Button(app, text="Start Quiz", width=20, font="10", padx=20, pady=20, command = lambda: present_question(0)).pack()
-
+    labelText = StringVar()
+    labelText.set("Hvor mange spørsmål vil du svare på?")
+    title = Label(app, textvariable=labelText, height="3", font="10").pack()
+    
+    #Input field
+    labelText = StringVar()
+    labelText.set(str(totalQuestions))
+    entry = Entry(app, width="2", font="10")
+    #entry.configure(width="2", font="10")
+    entry.insert(0,totalQuestions)
+    entry.grid(row=0, column=0)
+    entry.pack()
+    #print entry.get()
+    #limit = int(entry.get())
+    #print(limit)
+    #print(type(limit))
+    
+    labelText = StringVar()
+    labelText.set("av " + str(totalQuestions))
+    title = Label(app, textvariable=labelText, font="10")
+    title.grid(row=0, column=1)
+    title.pack()
+    
+    startbutton = Button(app, text="Start Quiz", width=20, font="10", padx="10", pady="10", command = lambda: present_question(0, entry.get()))
+    startbutton.pack(pady=20)
+    '''
+    if entry.get() == "":
+        print "can't be empty"
+    elif int(entry.get()) > totalQuestions:
+        print "can't be bigger than " + str(totalQuestions)
+    else:
+        startbutton.configure(state="active")
+    '''
     labelText = StringVar()
     labelText.set("Laget av gruppe 19.")
     title = Label(app, textvariable=labelText, height="3", font="20").pack()
-
-
-def stat_page():
-    remove_frames()
-    labelText = StringVar()
-    labelText.set("Avsluttende Statistikk")
-    Label(app, textvariable=labelText, height="3", font="20").pack()
     
-    if stats["rightAnswers"] == len(spm):
-        labelText = StringVar()
-        labelText.set("Supert! Du hadde rett på alt!")
-        Label(app, textvariable=labelText, height="3", font="10").pack()
-    else:
-        labelText = StringVar()
-        labelText.set("Du hadde " + str(stats["rightAnswers"]) + " riktige svar av " + str(len(spm)) + ".")
-        Label(app, textvariable=labelText, height="3", font="10").pack()
-
-        labelText = StringVar()
-        labelText.set("Du hadde " + str(stats["wrongAnswers"]) + " feil svar av " + str(len(spm)) + ".")
-        Label(app, textvariable=labelText, height="3", font="10").pack()
-
-        uansweredQuestions = len(spm) - stats["wrongAnswers"] - stats["rightAnswers"]
-        labelText = StringVar()
-        labelText.set("Du hadde " + str(uansweredQuestions) + " ubesvarte spørsmål.")
-        message = Label(app, textvariable=labelText, height="3", font="10")
-        if uansweredQuestions > 0:
-            message.pack()
-
-    discontinue = Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page()).pack()
-
-
     
 # Initiate the UI
 def init_ui():
