@@ -94,7 +94,7 @@ def next_question(i, questionLimit):
 #This function returns true if there is an illegal charater in the limit, returns false otherwise
 def illegalCharacters(limit):
     punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~+¤|'''
-    for x in limit:
+    for x in str(limit):
         for y in punctuations:
             if x == y:
                 return TRUE
@@ -107,7 +107,7 @@ def present_question(index, limit):
     #Error handling
     #If user enters in illegal characters, an empty string, letters, too large limits, just zero or a negative integer 
     #It sets the questionLimit to the length of all the questions in spm.json
-    if illegalCharacters(limit) or limit == '' or limit.isalpha() or int(limit) > len(import_questions()) or int(limit) <= 0 :
+    if illegalCharacters(limit) or limit == '' or str(limit).isalpha() or int(limit) > len(import_questions()) or int(limit) <= 0 :
         questionLimit = len(import_questions())
     else:
         questionLimit = int(limit)
@@ -289,29 +289,56 @@ def stat_page(questionLimit):
     titleFont = "20"
     labelFont = "10"
 
+    #Label for the title
     labelText = StringVar()
     labelText.set("Avsluttende Statistikk")
     Label(app, textvariable=labelText, height="3", font=titleFont).pack()
-    
+
+    #Label for unanswered questions
+    uansweredQuestions = questionLimit - stats["wrongAnswers"] - stats["rightAnswers"]
+    labelText = StringVar()
+    #More accurate language
+    if uansweredQuestions == 1:
+        labelText.set("Du hadde " + str(uansweredQuestions) + " ubesvart spørsmål.")
+    else:
+        labelText.set("Du hadde " + str(uansweredQuestions) + " ubesvarte spørsmål.")
+    unasweredQuestionsLabel = Label(app, textvariable=labelText, height="3", font=labelFont)
+
+    #Label for right answers
+    labelText = StringVar()
+    #More accurate language
+    if stats["rightAnswers"] == 1:
+        labelText.set("Du hadde " + str(stats["rightAnswers"]) + " riktig svar av " + str(questionLimit) + ".")
+    else:
+        labelText.set("Du hadde " + str(stats["rightAnswers"]) + " riktige svar av " + str(questionLimit) + ".")
+    rightAnswersLabel = Label(app, textvariable=labelText, height="3", font=labelFont)
+
+    #Label for wrong answer
+    labelText = StringVar()
+    labelText.set("Du hadde " + str(stats["wrongAnswers"]) + " feil svar av " + str(questionLimit) + ".")
+    wrongAnswersLabel = Label(app, textvariable=labelText, height="3", font=labelFont)
+
+    #Conditional rendering of labels
     if stats["rightAnswers"] == questionLimit:
         labelText = StringVar()
         labelText.set("Supert! Du hadde rett på alt!")
         Label(app, textvariable=labelText, height="3", font=labelFont).pack()
+    elif stats["wrongAnswers"] == questionLimit:
+        wrongAnswersLabel.pack()
+    elif stats["rightAnswers"] == 0 and stats["wrongAnswers"] == 0:
+        unasweredQuestionsLabel.pack()
+    elif stats["rightAnswers"] == 0 and uansweredQuestions > 0:
+        wrongAnswersLabel.pack()
+        unasweredQuestionsLabel.pack()
+    elif stats["wrongAnswers"] == 0 and uansweredQuestions > 0:
+        rightAnswersLabel.pack()
+        unasweredQuestionsLabel.pack()
+    
     else:
-        labelText = StringVar()
-        labelText.set("Du hadde " + str(stats["rightAnswers"]) + " riktige svar av " + str(questionLimit) + ".")
-        Label(app, textvariable=labelText, height="3", font=labelFont).pack()
-
-        labelText = StringVar()
-        labelText.set("Du hadde " + str(stats["wrongAnswers"]) + " feil svar av " + str(questionLimit) + ".")
-        Label(app, textvariable=labelText, height="3", font=labelFont).pack()
-
-        uansweredQuestions = questionLimit - stats["wrongAnswers"] - stats["rightAnswers"]
-        labelText = StringVar()
-        labelText.set("Du hadde " + str(uansweredQuestions) + " ubesvarte spørsmål.")
-        message = Label(app, textvariable=labelText, height="3", font=labelFont)
+        rightAnswersLabel.pack()
+        wrongAnswersLabel.pack()
         if uansweredQuestions > 0:
-            message.pack()
+            unasweredQuestionsLabel.pack()
 
     Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page(questionLimit)).pack()
 
