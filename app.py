@@ -91,21 +91,27 @@ def next_question(i, questionLimit):
         i += 1
     present_question(i, questionLimit)
 
+#This function returns true if there is an illegal charater in the limit, returns false otherwise
+def illegalCharacters(limit):
+    punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~+¤|'''
+    for x in limit:
+        for y in punctuations:
+            if x == y:
+                return TRUE
+    return FALSE
+
 # Presents a question to the user with the help of the UI
 def present_question(index, limit):
     remove_frames()
 
     #Error handling
-    #Though this need improvements before we can merge with master
-    #If user enters in an empty string, letters, too large limit, just zero or a negative integer 
+    #If user enters in illegal characters, an empty string, letters, too large limits, just zero or a negative integer 
     #It sets the questionLimit to the length of all the questions in spm.json
-    #TODO: add character support
-    
-    if limit == '' or limit.isalpha() or int(limit) > len(import_questions()) or int(limit) <= 0 :
+    if illegalCharacters(limit) or limit == '' or limit.isalpha() or int(limit) > len(import_questions()) or int(limit) <= 0 :
         questionLimit = len(import_questions())
     else:
         questionLimit = int(limit)
-
+    
     #Fontsize:
     titleFont = "15"
     labelFont = "10"
