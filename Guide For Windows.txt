@@ -1,0 +1,7 @@
+
+Les og følge denne guide NØYE for å starte applikasjonen
+
+1. Åpne mappen "app"
+2. Se at du både har filene "Quiz app" og "spm" i mappen
+3. Dobbeltklikk på "Quiz app" for å starte applikasjonen
+

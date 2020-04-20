@@ -1,0 +1,41 @@
+
+Les og følg denne guiden NØYE for å kjøre applikasjonen
+
+1. Sjekk at du har både app.py og spm.json i den mappen som guiden ligger i.
+
+2. Åpne terminalen på maskinen din, dette kan gjøres ved å bruke command + space eller søke opp "terminal" i søkefeltet på MACen.
+
+3. Når terminalen er åpen, skriv så inn "python --version" for å sjekke at du har python versjon 2.7 installert.
+(Dersom du får opp python 3, sjekk hva du kan gjøre lenger ned"
+
+4. Du skal så lage en mappe (som innholdet i mappen "For MAC" skal legges i), dette gjør du ved å skrive "mkdir applikasjon".
+
+5. Deretter kan du skrive inn "ls" for å se at den finnes og deretter "cd applikasjon" for å navigere til den.
+
+6. Kopier så filene app.py og spm.json inn i den mappen(applikasjon) som du lagde i terminalen.
+
+7. For å finne denne mappen som du lagde i terminalen, kan søke den opp i søkefeltet på MACen.
+
+8. Gå så tilbake til terminalen og skriv inn "ls" for å se at filene ligger i mappen.
+
+9. Dersom du ser både app.py og spm.json i terminalen, kan du skrive inn commandoen "python app.py"
+
+Du har nå åpnet applikasjonen og klar for å bruke den.
+
+Dersom du har gjort alle stegene, men ønsker å teste applikasjonen på nytt:
+1. Åpne terminalen 
+2. Skriv inn "cd applikasjon"
+3. Deretter skriv inn "python app.py"
+
+Tips:
+For å finne filpathen du er ute etter kan du skrive inn "pwd" i terminalen
+Du kan kopiere det som er i hermetegnene "" og sette det inn i terminalen
+
+Python 3:
+Det kan være at du har installert python 3 på MACen din fra før, er dette tilfellet må du heller la python 2 kjøre isteden.
+Dette kan gjøre ved å skrive inn "alias python=python2.7" inn i terminalen
+Sjekk så ved å skrive inn "python 
+
+Winebottler:
+Winebottler er et tredjepart program for MAC som kan lastes ned, dette gir da deg mulighet til å kjøre windows programmer(executables)
+på MACen ved hjelp av drag and drop av executable fila.
