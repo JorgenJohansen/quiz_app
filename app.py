@@ -157,7 +157,7 @@ def present_question(index, limit):
     question = spm[index]["q"]
     labelText2 = StringVar()
     labelText2.set(question)
-    question = ttk.Label(main_frame, text=labelText2.get(), font=font).pack(pady=20)
+    question = ttk.Label(main_frame, text=labelText2.get(), font=font, wraplength=450).pack(pady=20)
 
     #Value for radiobutton
     rbValue = StringVar(value=2)
