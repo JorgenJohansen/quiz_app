@@ -1,9 +1,40 @@
 # -*- coding: utf-8 -*-
 from Tkinter import *
-import json, pprint, io
+import ttk
+#from ttkthemes import ThemedStyle
+import json, io
 
 #Creating tkinter app window:
 app = Tk()
+
+#OPTION 1 for theme: import ttkthemes
+# Define style for how the app looks. Commented out commands show available styles. This uses ttkthemes with more theme options
+#TTkthemes needs to be pip installed
+#Change theme by simply change the value inside s.set_theme('')
+#--------------------------------------------------------------
+#s = ThemedStyle(app)
+#print(s.theme_names())
+#print(s.theme_use())
+#s.set_theme('scidblue')
+#print(s.theme_use())
+
+#OPTION 2 for theme: default
+#Same thing, but with less options. Vista seems to be best "looking" here imo
+s = ttk.Style()
+print(s.theme_names())
+s.theme_use('vista')
+print(s.theme_use())
+
+#Fonts used for the app
+font = ('Verdana 12')
+fontSmall = ('Verdana 11')
+fontBold = ('Verdana 12 bold')
+fontsBold = ('Verdana 10 bold')
+fontItalic = ('Verdana 10 italic')
+s.configure('Alt.TRadiobutton', font=('Verdana 11'))
+s.configure('Wrong', foreground='Red')
+labelFont = "10"
+
 app.title("Quiz Application")
 app.geometry('600x600+200+200')
 #app.configure(borderwidth=2, relief="solid")
@@ -64,16 +95,18 @@ def import_questions():
 def evaluate_question(index, answer):
     if spm[index]["answer"] == spm[index][answer]:
         #Rendering the right answer and incrementing the rightAnswers variable
-        labelText = StringVar()
-        labelText.set("Riktig Svar! Bra jobba!")
-        Label(app, textvariable=labelText, height="3", font="10", foreground="green").pack()
+        #labelText = StringVar()
+        #labelText.set("Riktig Svar! Bra jobba!")
+        #Label(app, textvariable=labelText, height="3", font="10", foreground="green").pack()
         stats["rightAnswers"] += 1
+        return("Riktig Svar! Bra jobba!")
     else:
         #Rendering the wrong answer and incrementing the wrongAnswers variable
-        labelText = StringVar()
-        labelText.set(spm[index]["read"])
-        Label(app, textvariable=labelText, height="3", font="10").pack()
+        #labelText = StringVar()
+        #labelText.set(spm[index]["read"])
+        #Label(app, textvariable=labelText, height="3", font="10").pack()
         stats["wrongAnswers"] += 1
+        return(spm[index]["read"])
     
 #This function removes all widgets from the frame
 def remove_frames():
@@ -103,6 +136,8 @@ def illegalCharacters(limit):
 # Presents a question to the user with the help of the UI
 def present_question(index, limit):
     remove_frames()
+    main_frame = ttk.Frame(app, borderwidth=1)
+    main_frame.pack(fill='both', expand=True)
 
     #Error handling
     #If user enters in illegal characters, an empty string, letters, too large limits, just zero or a negative integer 
@@ -111,83 +146,80 @@ def present_question(index, limit):
         questionLimit = len(import_questions())
     else:
         questionLimit = int(limit)
-    
-    #Fontsize:
-    titleFont = "15"
-    labelFont = "10"
-    buttonFont = "8"
 
     #Progression in the quiz
     progressionText = "Spørsmål " + str((index+1)) + " av " + str(questionLimit)
     labelText1 = StringVar()
     labelText1.set(progressionText)
-    Label(app, textvariable=labelText1, font=titleFont, height="3").pack()
+    ttk.Label(main_frame, text=labelText1.get(), font=fontBold).pack(pady=10)
 
     #Question as a label
     question = spm[index]["q"]
     labelText2 = StringVar()
     labelText2.set(question)
-    question = Label(app, textvariable=labelText2, height="3", wraplength="400", font=titleFont).pack()
+    question = ttk.Label(main_frame, text=labelText2.get(), font=font, wraplength=450).pack(pady=20)
 
     #Value for radiobutton
     rbValue = StringVar(value=2)
+
+    frame = ttk.Frame(main_frame)
     
     #Answer button
-    answerbutton = Button(app, text="Sjekk svar", font=buttonFont, width=20, padx=5, pady=5, state="disabled", command = lambda: give_feedback(index, rbValue.get(),questionLimit))
+    answerbutton = ttk.Button(frame, text="Sjekk svar", state="disabled", command = lambda: give_feedback(index, rbValue.get(),questionLimit))
     
     #Radiobuttons
     #This is made to support questions with varying number of alternatives
     #radiobuttons also sets the answer button to active, to keep the application from crashing
-    rbContainer = Frame(app)
+    rbContainer = Frame(main_frame)
     for i in range(1, len(spm[index])-2):
         valueString = "a" + str(i)
-        rb = Radiobutton(rbContainer, text=spm[index][valueString], justify="left", font=labelFont,  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active"))
-        rb.pack(anchor="w")
+        rb = ttk.Radiobutton(rbContainer, text=spm[index][valueString],  variable=rbValue, value=valueString, style='Alt.TRadiobutton', command = lambda: answerbutton.config(state="active"))
+        rb.pack(anchor="w", fill='both')
     rbContainer.pack()
 
+    frame.pack(pady=20)
+
     #Answer button rendering
-    answerbutton.pack()
+    answerbutton.pack(side=LEFT, padx=10, ipadx=10, ipady=10)
 
     #Next question button
-    nextquestion = Button(app, text="Gå til neste spørsmål", font=buttonFont, width=20, padx=5, pady=5, command = lambda: next_question(index,questionLimit))
+    nextquestion = ttk.Button(frame, text="Gå til neste spørsmål", command = lambda: next_question(index,questionLimit))
     
     #Stat page button
-    statpage = Button(app, text="Avsluttende Statistikk", font=buttonFont, width=20, padx=5, pady=5, command = lambda: stat_page(questionLimit))
+    statpage = ttk.Button(frame, text="Avsluttende Statistikk", command = lambda: stat_page(questionLimit))
 
     #Rendering the right button on where we are in the quiz
     if (index+1) < limit:
-        nextquestion.pack()
+        nextquestion.pack(side=RIGHT, ipadx=10, ipady=10)
     else:
-        statpage.pack()
+        statpage.pack(side=RIGHT, ipadx=10, ipady=10)
     
     #Discontinue button
-    Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page(questionLimit)).pack()
+    ttk.Button(main_frame, text="Avslutt quiz", command = lambda: front_page(questionLimit)).pack(pady=20, ipady=8, ipadx=8)
 
 
 # Gives feedback to the user with the help of the UI
 def give_feedback(index, answer, questionLimit):
     remove_frames()
-    question = spm[index]["q"]
+    main_frame = ttk.Frame(app, borderwidth=1)
+    main_frame.pack(fill='both', expand=True)
 
-    #Fontsize:
-    titleFont = "15"
-    labelFont = "10"
-    buttonFont = "8"
+    question = spm[index]["q"]
 
     #Progression in the quiz
     progressionText = "Spørsmål " + str((index+1)) + " av " + str(questionLimit)
     labelText1 = StringVar()
     labelText1.set(progressionText)
-    Label(app, textvariable=labelText1, font=titleFont, height="3").pack()
+    ttk.Label(main_frame, text=labelText1.get(), font=fontBold).pack(pady=10)
     
     #Question as a label
     labelText = StringVar()
     labelText.set(question)
-    question = Label(app, textvariable=labelText, height="3", wraplength="400", font=titleFont).pack()
+    question = ttk.Label(main_frame, text=labelText.get(), font=font).pack(pady=20)
 
     #Render labels with varying colors of corretnes
     #Red is for wrong answer, green is for right answer
-    answerContainer = Frame(app)
+    answerContainer = Frame(main_frame)
     if spm[index]["answer"] == spm[index][answer]:
         for i in range(1,len(spm[index])-2):
             labelText = StringVar()
@@ -195,11 +227,11 @@ def give_feedback(index, answer, questionLimit):
             if spm[index]["answer"] == spm[index][valueString]:
                 #Rendering the right answer with green color
                 labelText.set(spm[index][valueString])
-                Label(answerContainer, textvariable=labelText, height="2", font=labelFont, foreground="green").pack(anchor="w")
+                ttk.Label(answerContainer, text=labelText.get(), font=fontSmall, foreground="limegreen").pack(anchor="w", fill='both')
             else:
                 #Rendering the wrong alternatives with red color
                 labelText.set(spm[index][valueString])
-                Label(answerContainer, textvariable=labelText, height="2", font=labelFont, foreground="red").pack(anchor="w")
+                ttk.Label(answerContainer, text=labelText.get(), font=fontSmall, foreground="red").pack(anchor="w", fill='both')
     else:
         for i in range(1,len(spm[index])-2):
             labelText = StringVar()
@@ -207,39 +239,41 @@ def give_feedback(index, answer, questionLimit):
             if spm[index][answer] == spm[index][valueString]:
                 #Rendering the wrong alternative with a red color
                 labelText.set(spm[index][valueString])
-                Label(answerContainer, textvariable=labelText, height="2", font=labelFont, foreground="red").pack(anchor="w")
+                ttk.Label(answerContainer, text=labelText.get(), font=fontSmall, foreground="red").pack(anchor="w", fill='both')
             else:
                 #Rendering the other alternatives with black
                 labelText.set(spm[index][valueString])
-                Label(answerContainer, textvariable=labelText, height="2", font=labelFont, foreground="black").pack(anchor="w")
+                ttk.Label(answerContainer, text=labelText.get(), font=fontSmall, foreground="black").pack(anchor="w", fill='both')
 
     #Rendering the answer container
     answerContainer.pack()
     
     #Calling the evaluate question function
-    evaluate_question(index, answer)
+    feedback = evaluate_question(index, answer)
+    if (feedback == "Riktig Svar! Bra jobba!"):
+        ttk.Label(main_frame, text=feedback, font=fontsBold, foreground="limegreen").pack(pady=10)
+    else:
+        ttk.Label(main_frame, text=feedback, font=fontsBold).pack(pady=10)
     
     #Next question button
-    nextquestion = Button(app, text="Gå til neste spørsmål", font=buttonFont, width=20, padx=5, pady=5, command = lambda: next_question(index, questionLimit))
+    nextquestion = ttk.Button(main_frame, text="Gå til neste spørsmål", command = lambda: next_question(index, questionLimit))
 
     #Stat page button
-    statpage = Button(app, text="Avsluttende Statistikk", font=buttonFont, width=20, padx=5, pady=5, command = lambda: stat_page(questionLimit))
+    statpage = ttk.Button(main_frame, text="Avsluttende Statistikk", command = lambda: stat_page(questionLimit))
 
     #Rendering the right button on where we are in the quiz
     if (index+1) < questionLimit:
-        nextquestion.pack()
+        nextquestion.pack(ipadx=12, ipady=12, pady=20)
     else:
-        statpage.pack()
-    Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page(questionLimit)).pack()
-    
+        statpage.pack(ipady=12, ipadx=12, pady=20)
+    ttk.Button(main_frame, text="Avslutt quiz", command = lambda: front_page(questionLimit)).pack(pady=20, ipady=8, ipadx=8)
+
 #This function makes the front page of the application
 def front_page(limit):
     #Removing existing frames
     remove_frames()
-
-    #Fontsize:
-    buttonFont = "10"
-    labelFont = "10"
+    main_frame = ttk.Frame(app, borderwidth=1)
+    main_frame.pack(fill='both', expand=True)
 
     #Reset progress:
     stats["wrongAnswers"] = 0
@@ -249,50 +283,52 @@ def front_page(limit):
     totalQuestions = len(import_questions())
     
     #Rendering the title of the front page
-    labelText = StringVar()
-    labelText.set("Velkommen til Quiz i Praktisk Prosjektledelse!")
-    title = Label(app, textvariable=labelText, height="3", font="30").pack()
+    labelText1 = StringVar()
+    labelText1.set("Velkommen til Quiz i Praktisk Prosjektledelse!")
+    title = ttk.Label(main_frame, text=labelText1.get(), font=fontBold)
+    title.pack(padx=10, pady=10)
+    
 
     #Rendering amount of questions title
-    labelText = StringVar()
-    labelText.set("Hvor mange spørsmål vil du svare på?")
-    title = Label(app, textvariable=labelText, height="3", font="10").pack()
-    
+    labelText2 = StringVar()
+    labelText2.set("Hvor mange spørsmål vil du svare på?")
+    title = ttk.Label(main_frame, text=labelText2.get(), font=font).pack(padx=10, pady=10)
+
+    # Frame to put two widgets next to each other
+    frame = ttk.Frame(main_frame)
+    frame.pack(pady=10)
+
     #Input field
-    entry = Entry(app, width="2", font=labelFont)
+    entry = ttk.Entry(frame, width="2", font=labelFont)
     entry.insert(0,limit)
-    entry.grid(row=0, column=0)
-    entry.pack()
+    entry.pack(side=LEFT)
     
     
     #Rendering the amount of questions we have in the quiz
     labelText = StringVar()
     labelText.set("av " + str(totalQuestions))
-    title = Label(app, textvariable=labelText, font=labelFont)
-    title.grid(row=0, column=1)
-    title.pack()
+    title = ttk.Label(frame, text=labelText.get(), font=labelFont)
+    title.pack(side=RIGHT)
 
     #Rendering the start button
-    startbutton = Button(app, text="Start Quiz", width=20, font=buttonFont, padx="10", pady="10", command = lambda: present_question(0, entry.get()))
-    startbutton.pack(pady=20)
+    startbutton = ttk.Button(main_frame, text="Start Quiz", command = lambda: present_question(0, entry.get()))
+    startbutton.pack(ipady=12, ipadx=12, pady=10)
     
     #Rendering the footer of the front page
     labelText = StringVar()
     labelText.set("Laget av gruppe 19.")
-    title = Label(app, textvariable=labelText, height="3", font="20").pack()
+    title = ttk.Label(main_frame, text=labelText.get(), font=fontItalic).pack(pady=20)
 
 
 def stat_page(questionLimit):
     remove_frames()
-
-    #Fontsize:
-    titleFont = "20"
-    labelFont = "10"
+    main_frame = ttk.Frame(app, borderwidth=1)
+    main_frame.pack(fill='both', expand=True)
 
     #Label for the title
     labelText = StringVar()
     labelText.set("Avsluttende Statistikk")
-    Label(app, textvariable=labelText, height="3", font=titleFont).pack()
+    ttk.Label(main_frame, text=labelText.get(), font=fontBold).pack(pady=20)
 
     #Label for unanswered questions
     uansweredQuestions = questionLimit - stats["wrongAnswers"] - stats["rightAnswers"]
@@ -302,7 +338,7 @@ def stat_page(questionLimit):
         labelText.set("Du hadde " + str(uansweredQuestions) + " ubesvart spørsmål.")
     else:
         labelText.set("Du hadde " + str(uansweredQuestions) + " ubesvarte spørsmål.")
-    unasweredQuestionsLabel = Label(app, textvariable=labelText, height="3", font=labelFont)
+    unasweredQuestionsLabel = ttk.Label(main_frame, text=labelText.get(), font=font)
 
     #Label for right answers
     labelText = StringVar()
@@ -311,18 +347,18 @@ def stat_page(questionLimit):
         labelText.set("Du hadde " + str(stats["rightAnswers"]) + " riktig svar av " + str(questionLimit) + ".")
     else:
         labelText.set("Du hadde " + str(stats["rightAnswers"]) + " riktige svar av " + str(questionLimit) + ".")
-    rightAnswersLabel = Label(app, textvariable=labelText, height="3", font=labelFont)
+    rightAnswersLabel = ttk.Label(main_frame, text=labelText.get(), font=font)
 
     #Label for wrong answer
     labelText = StringVar()
     labelText.set("Du hadde " + str(stats["wrongAnswers"]) + " feil svar av " + str(questionLimit) + ".")
-    wrongAnswersLabel = Label(app, textvariable=labelText, height="3", font=labelFont)
+    wrongAnswersLabel = ttk.Label(main_frame, text=labelText.get(), font=font)
 
     #Conditional rendering of labels
     if stats["rightAnswers"] == questionLimit:
         labelText = StringVar()
         labelText.set("Supert! Du hadde rett på alt!")
-        Label(app, textvariable=labelText, height="3", font=labelFont).pack()
+        ttk.Label(main_frame, text=labelText.get(), font=font, foreground="limegreen").pack()
     elif stats["wrongAnswers"] == questionLimit:
         wrongAnswersLabel.pack()
     elif stats["rightAnswers"] == 0 and stats["wrongAnswers"] == 0:
@@ -340,7 +376,7 @@ def stat_page(questionLimit):
         if uansweredQuestions > 0:
             unasweredQuestionsLabel.pack()
 
-    Button(app, text="Avslutt quiz", font="10", width=20, padx=5, pady=5, command = lambda: front_page(questionLimit)).pack()
+    ttk.Button(main_frame, text="Avslutt quiz", command = lambda: front_page(questionLimit)).pack(ipady=12, ipadx=12, pady=20)
 
 
     
