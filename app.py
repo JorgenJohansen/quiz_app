@@ -27,11 +27,11 @@ print(s.theme_use())
 
 #Fonts used for the app
 font = ('Verdana 12')
-fontSmall = ('Verdana 9')
+fontSmall = ('Verdana 11')
 fontBold = ('Verdana 12 bold')
 fontsBold = ('Verdana 10 bold')
 fontItalic = ('Verdana 10 italic')
-s.configure('Correct', foreground='Green')
+s.configure('Alt.TRadiobutton', font=('Verdana 11'))
 s.configure('Wrong', foreground='Red')
 labelFont = "10"
 
@@ -173,7 +173,7 @@ def present_question(index, limit):
     rbContainer = Frame(main_frame)
     for i in range(1, len(spm[index])-2):
         valueString = "a" + str(i)
-        rb = ttk.Radiobutton(rbContainer, text=spm[index][valueString],  variable=rbValue, value=valueString, command = lambda: answerbutton.config(state="active"))
+        rb = ttk.Radiobutton(rbContainer, text=spm[index][valueString],  variable=rbValue, value=valueString, style='Alt.TRadiobutton', command = lambda: answerbutton.config(state="active"))
         rb.pack(anchor="w", fill='both')
     rbContainer.pack()
 
@@ -195,7 +195,7 @@ def present_question(index, limit):
         statpage.pack(side=RIGHT, ipadx=10, ipady=10)
     
     #Discontinue button
-    ttk.Button(main_frame, text="Avslutt quiz", command = lambda: front_page(questionLimit)).pack(pady=20)
+    ttk.Button(main_frame, text="Avslutt quiz", command = lambda: front_page(questionLimit)).pack(pady=20, ipady=8, ipadx=8)
 
 
 # Gives feedback to the user with the help of the UI
@@ -266,7 +266,7 @@ def give_feedback(index, answer, questionLimit):
         nextquestion.pack(ipadx=12, ipady=12, pady=20)
     else:
         statpage.pack(ipady=12, ipadx=12, pady=20)
-    ttk.Button(main_frame, text="Avslutt quiz", command = lambda: front_page(questionLimit)).pack(pady=20)
+    ttk.Button(main_frame, text="Avslutt quiz", command = lambda: front_page(questionLimit)).pack(pady=20, ipady=8, ipadx=8)
 
 #This function makes the front page of the application
 def front_page(limit):
